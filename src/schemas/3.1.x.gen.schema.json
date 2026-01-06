@@ -1,0 +1,19 @@
+{
+  "_internalConfig": {
+    "openapi": "3.1.0",
+    "$schema": "./schemas/3.1.x.gen.schema.json",
+    "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema"
+  },
+  "openAPIConfig": {
+    "info": {
+      "title": "",
+      "version": ""
+    }
+  },
+  "generatorConfig": {
+    "baseDir": "",
+    "filePatterns": [],
+    "outputDir": "",
+    "outputFileName": ""
+  }
+}
