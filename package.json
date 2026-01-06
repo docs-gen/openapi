@@ -1,0 +1,31 @@
+{
+  "name": "@docs-gen/openapi",
+  "version": "0.1.0",
+  "description": "A simple and flexible OpenAPI documentation generator that generates JSON file following OpenAPI specifications from your API codebase.",
+  "main": "index.js",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "docs-gen-openapi": "src/cli/index.js"
+  },
+  "keywords": [
+    "docs-gen",
+    "docs-generator",
+    "openapi",
+    "openapi-docs",
+    "openapi-docs-generator"
+  ],
+  "author": "ManjeetSingh-02",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/docs-gen/openapi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/docs-gen/openapi/issues"
+  },
+  "homepage": "https://github.com/docs-gen/openapi#readme"
+}
