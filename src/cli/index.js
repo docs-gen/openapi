@@ -8,14 +8,16 @@ import { program } from 'commander';
 
 // init CLI command
 program
-  .command('init')
+  .command('initialize')
+  .alias('init')
   .description('Initialize the docs-gen-openapi configuration file')
   .action(initializeConfig);
 
 // generate CLI command
 program
   .command('generate')
-  .description('Generate documentation from OpenAPI specification')
+  .alias('gen')
+  .description('Generate documentation following the docs-gen-openapi configuration file')
   .action(generateDocumentation);
 
 // parse CLI arguments
