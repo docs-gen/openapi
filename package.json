@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/docs-gen/openapi/issues"
   },
-  "homepage": "https://github.com/docs-gen/openapi#readme"
+  "homepage": "https://github.com/docs-gen/openapi#readme",
+  "dependencies": {
+    "commander": "^14.0.2"
+  }
 }
