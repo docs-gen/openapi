@@ -7,6 +7,7 @@ import path from 'path';
 import url from 'url';
 import util from 'util';
 import { confirm, select } from '@inquirer/prompts';
+import kleur from 'kleur';
 
 // sub-function to check if a config file already exists
 async function configFileExists(filePath) {
@@ -19,7 +20,9 @@ async function configFileExists(filePath) {
 // sub-function to confirm overwriting an existing config file
 async function confirmOverwrite() {
   return await confirm({
-    message: `${OPEN_API_CONFIG.FILE_NAME} already exists. Do you want to overwrite the file ?`,
+    message: `${kleur.blue('@docs-gen/openapi:')} ${kleur.grey(
+      `${OPEN_API_CONFIG.FILE_NAME} already exists, do you want to overwrite it?`
+    )}`,
     default: false,
   });
 }
@@ -27,7 +30,9 @@ async function confirmOverwrite() {
 // sub-function to select OpenAPI version
 async function selectVersion() {
   return await select({
-    message: 'Select the OpenAPI version you want to use:',
+    message: `${kleur.blue('@docs-gen/openapi:')} ${kleur.grey(
+      'Select the OpenAPI version for your configuration file:'
+    )}`,
     choices: OPEN_API_CONFIG.SUPPORTED_OPEN_API_VERSIONS,
   });
 }
@@ -81,5 +86,11 @@ export default async function () {
   // write config file
   await fs.writeFile(configFilePath, configFileContent, 'utf-8');
 
-  console.log(`${OPEN_API_CONFIG.FILE_NAME} has been created successfully at ${configFilePath}`);
+  console.log(
+    `${kleur.green('✔')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur
+      .bold()
+      .gray('File created:')} ${kleur.cyan(
+      `${OPEN_API_CONFIG.FILE_NAME}(${path.dirname(configFilePath)})`
+    )}`
+  );
 }

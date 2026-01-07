@@ -6,6 +6,7 @@ import pkg from '../../package.json' with { type: 'json' };
 
 // import external modules
 import { program } from 'commander';
+import kleur from 'kleur';
 
 // setup CLI command
 program
@@ -29,5 +30,8 @@ program
 
 // parse CLI arguments with error handling
 program.parseAsync(process.argv).catch(err => {
-  if(err.name === 'ExitPromptError') console.error('Operation cancelled by the user')
-})
+  if (err.name === 'ExitPromptError')
+    console.error(
+      `${kleur.red('✖')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur.bold().grey('Error during prompt execution:')} ${kleur.red('Operation cancelled by the user')}`
+    );
+});
