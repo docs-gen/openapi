@@ -14,6 +14,11 @@ export const OPEN_API_CONFIG = {
       value: '3.2.x',
     },
   ],
+  SCHEMA_FILES_MAP: {
+    '3.0.x': '3.0.x.gen.schema.json',
+    '3.1.x': '3.1.x.gen.schema.json',
+    '3.2.x': '3.2.x.gen.schema.json',
+  },
   TYPE_DEFS_MAP: {
     '3.0.x': 'DocsGeneratorOptionsV30X',
     '3.1.x': 'DocsGeneratorOptionsV31X',
