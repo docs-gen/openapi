@@ -1,11 +1,11 @@
-// import internal modules
+// import local modules
 import { OPEN_API_CONFIG } from '../../constants/index.js';
+import { initialize } from '../../lib/initialize.js';
 
 // import external modules
 import fs from 'fs/promises';
-import path from 'path';
 import url from 'url';
-import util from 'util';
+import path from 'path';
 import { confirm, select } from '@inquirer/prompts';
 import kleur from 'kleur';
 
@@ -37,37 +37,11 @@ async function selectVersion() {
   });
 }
 
-// sub-function to resolve schema file path and read its content
-async function readSchemaFile({ openAPIVersion, __dirname }) {
-  const schemaFilePath = path.resolve(
-    __dirname,
-    `../../schemas/${OPEN_API_CONFIG.SCHEMA_FILES_MAP[openAPIVersion]}`
-  );
-
-  return await fs.readFile(schemaFilePath, 'utf-8');
-}
-
-// sub-function to generate config file content based on OpenAPI version
-function generateFileContent({ openAPIVersion, schemaFileContent }) {
-  const versionTypeDefs = OPEN_API_CONFIG.TYPE_DEFS_MAP[openAPIVersion];
-
-  return `/**
- * @type {import('@docs-gen/openapi').${versionTypeDefs}}
- */
-
-export default ${util.inspect(JSON.parse(schemaFileContent), {
-    compact: false,
-    depth: null,
-    maxArrayLength: null,
-    maxStringLength: null,
-    sorted: false,
-  })};`;
-}
-
-// function to initialize a config file
-export default async function () {
+// function to invoke the initialization of a config file via CLI
+export async function initializeConfigByCLI() {
   const __filename = url.fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
+  const schemaDir = path.join(__dirname, '../../schemas');
   const projectRoot = process.cwd();
   const configFilePath = path.join(projectRoot, OPEN_API_CONFIG.FILE_NAME);
 
@@ -77,14 +51,8 @@ export default async function () {
   // select OpenAPI version and typeName
   const openAPIVersion = await selectVersion();
 
-  // get schema file content
-  const schemaFileContent = await readSchemaFile({ openAPIVersion, __dirname });
-
-  // generate config file content
-  const configFileContent = generateFileContent({ openAPIVersion, schemaFileContent });
-
-  // write config file
-  await fs.writeFile(configFilePath, configFileContent, 'utf-8');
+  // invoke initialization
+  await initialize({ schemaDir, openAPIVersion, configFilePath });
 
   console.log(
     `${kleur.green('✔')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur

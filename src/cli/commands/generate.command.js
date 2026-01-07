@@ -1,3 +1,5 @@
-export default async function () {
-  console.log('generate command');
+import { generate } from '../../lib/generate.js';
+
+export async function generateDocsByCLI() {
+  await generate();
 }
