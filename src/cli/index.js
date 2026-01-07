@@ -1,6 +1,22 @@
 #!/usr/bin/env node
 
-// CLI entry point placeholder
-// Commands: init, run (to be implemented later)
+//import local modules
+import { generateDocumentation, initializeConfig } from './commands/index.js';
 
-console.log('CLI placeholder — commands will be implemented later');
+// import external modules
+import { program } from 'commander';
+
+// init CLI command
+program
+  .command('init')
+  .description('Initialize the docs-gen-openapi configuration file')
+  .action(initializeConfig);
+
+// generate CLI command
+program
+  .command('generate')
+  .description('Generate documentation from OpenAPI specification')
+  .action(generateDocumentation);
+
+// parse CLI arguments
+program.parse(process.argv);
