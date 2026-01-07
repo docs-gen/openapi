@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 //import local modules
-import { generateDocumentation, initializeConfig } from './commands/index.js';
+import { initializeConfigByCLI } from './commands/init.command.js';
+import { generateDocsByCLI } from './commands/generate.command.js';
 import pkg from '../../package.json' with { type: 'json' };
 
 // import external modules
@@ -19,14 +20,14 @@ program
   .command('initialize')
   .alias('init')
   .description('Initialize the docs-gen-openapi configuration file')
-  .action(initializeConfig);
+  .action(initializeConfigByCLI);
 
 // generate CLI command
 program
   .command('generate')
   .alias('gen')
   .description('Generate documentation following the docs-gen-openapi configuration file')
-  .action(generateDocumentation);
+  .action(generateDocsByCLI);
 
 // parse CLI arguments with error handling
 program.parseAsync(process.argv).catch(err => {
