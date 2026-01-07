@@ -27,5 +27,7 @@ program
   .description('Generate documentation following the docs-gen-openapi configuration file')
   .action(generateDocumentation);
 
-// parse CLI arguments
-program.parse(process.argv);
+// parse CLI arguments with error handling
+program.parseAsync(process.argv).catch(err => {
+  if(err.name === 'ExitPromptError') console.error('Operation cancelled by the user')
+})
