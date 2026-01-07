@@ -1,7 +1,6 @@
 {
   "_internalConfig": {
     "openapi": "3.2.0",
-    "$schema": "./schemas/3.2.x.gen.schema.json",
     "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema"
   },
   "openAPIConfig": {

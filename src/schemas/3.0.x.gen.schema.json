@@ -1,7 +1,6 @@
 {
   "_internalConfig": {
-    "openapi": "3.0.0",
-    "$schema": "./schemas/3.0.x.gen.schema.json"
+    "openapi": "3.0.0"
   },
   "openAPIConfig": {
     "info": {
