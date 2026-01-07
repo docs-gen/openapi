@@ -30,7 +30,6 @@ interface TagObject {
 export interface DocsGeneratorOptions {
   readonly _internalConfig: {
     readonly openapi: '3.2.0';
-    readonly $schema: './schemas/3.2.x.gen.schema.json';
     readonly jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema';
   };
 

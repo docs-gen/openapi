@@ -30,7 +30,6 @@ interface InfoObject {
 export interface DocsGeneratorOptions {
   readonly _internalConfig: {
     readonly openapi: '3.0.0';
-    readonly $schema: './schemas/3.0.x.gen.schema.json';
   };
 
   openAPIConfig: {
