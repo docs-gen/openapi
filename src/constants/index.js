@@ -1,5 +1,5 @@
 export const OPEN_API_CONFIG = {
-  FILE_NAME: 'docsgen.config.js',
+  FILE_NAME: 'docs-gen.config.js',
   SUPPORTED_OPEN_API_VERSIONS: [
     {
       name: 'OpenAPI 3.0.x',
