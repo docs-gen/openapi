@@ -1,7 +1,7 @@
 // import local modules
-import { OPEN_API_CONFIG } from '../../constants/index.js';
+import { OPEN_API_CONFIG } from '../../utils/constants.js';
 import { initialize } from '../../lib/initialize.js';
-import { configFileExists } from '../../lib/utils.js';
+import { configFileExists } from '../../utils/helpers.js';
 
 // import external modules
 import path from 'path';

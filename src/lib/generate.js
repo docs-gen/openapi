@@ -1,5 +1,5 @@
 // import local modules
-import { configFileExists } from './utils.js';
+import { configFileExists } from '../utils/helpers.js';
 import { validate } from './validate.js';
 
 // import external modules

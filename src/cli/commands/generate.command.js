@@ -1,5 +1,5 @@
 // import local modules
-import { OPEN_API_CONFIG } from '../../constants/index.js';
+import { OPEN_API_CONFIG } from '../../utils/constants.js';
 import { generate } from '../../lib/generate.js';
 
 // import external modules

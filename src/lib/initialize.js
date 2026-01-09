@@ -1,6 +1,6 @@
 // import internal modules
-import { OPEN_API_CONFIG } from '../constants/index.js';
-import { readSchemaFile } from './utils.js';
+import { OPEN_API_CONFIG } from '../utils/constants.js';
+import { readSchemaFile } from '../utils/helpers.js';
 
 // import external modules
 import fs from 'fs/promises';
@@ -26,7 +26,10 @@ export default ${util.inspect(JSON.parse(schemaFileContent), {
 // function to initialize a config file
 export async function initialize({ openAPIVersion, configFilePath }) {
   // get schema file content
-  const schemaFileContent = await readSchemaFile({ openAPIVersion });
+  const schemaFileContent = await readSchemaFile({
+    dirName: OPEN_API_CONFIG.SCHEMA_FILES_MAP.TEMPLATES_DIR,
+    openAPIVersion,
+  });
 
   // generate config file content
   const configFileContent = generateFileContent({ schemaFileContent, openAPIVersion });
