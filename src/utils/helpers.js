@@ -18,7 +18,7 @@ export async function configFileExists(filePath) {
 export async function readSchemaFile({ dirName, openAPIVersion }) {
   const __filename = url.fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const schemaDir = path.join(__dirname, `../schemas/${dirName}`);
+  const schemaDir = path.join(__dirname, `./schemas/${dirName}`);
   const schemaFilePath = path.resolve(
     schemaDir,
     `${OPEN_API_CONFIG.SCHEMA_FILES_MAP[openAPIVersion]}`
