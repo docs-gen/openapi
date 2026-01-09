@@ -1,0 +1,17 @@
+{
+  "_internalConfig": {
+    "openapi": "3.0.0"
+  },
+  "openAPIConfig": {
+    "info": {
+      "title": "",
+      "version": ""
+    }
+  },
+  "generatorConfig": {
+    "baseDir": "",
+    "filePatterns": [],
+    "outputDir": "",
+    "outputFileName": ""
+  }
+}
