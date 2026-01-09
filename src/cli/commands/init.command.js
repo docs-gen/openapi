@@ -4,7 +4,6 @@ import { initialize } from '../../lib/initialize.js';
 import { configFileExists } from '../../lib/utils.js';
 
 // import external modules
-import url from 'url';
 import path from 'path';
 import { confirm, select } from '@inquirer/prompts';
 import kleur from 'kleur';
@@ -31,11 +30,7 @@ async function selectVersion() {
 
 // function to invoke the initialization of a config file via CLI
 export async function initializeConfigByCLI() {
-  const __filename = url.fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  const schemaDir = path.join(__dirname, '../../schemas');
-  const projectRoot = process.cwd();
-  const configFilePath = path.join(projectRoot, OPEN_API_CONFIG.FILE_NAME);
+  const configFilePath = path.join(process.cwd(), OPEN_API_CONFIG.FILE_NAME);
 
   // if config file exists and if user does not confirm overwrite, exit
   if ((await configFileExists(configFilePath)) && !(await confirmOverwrite())) return;
@@ -44,7 +39,7 @@ export async function initializeConfigByCLI() {
   const openAPIVersion = await selectVersion();
 
   // invoke initialization
-  await initialize({ schemaDir, openAPIVersion, configFilePath });
+  await initialize({ openAPIVersion, configFilePath });
 
   console.log(
     `${kleur.green('✔')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur
