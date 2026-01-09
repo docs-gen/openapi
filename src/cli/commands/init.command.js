@@ -57,8 +57,8 @@ export async function initializeConfigByCLI() {
   console.log(
     `${kleur.green('✔')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur
       .bold()
-      .gray('File created:')} ${kleur.cyan(
-      `${OPEN_API_CONFIG.FILE_NAME}(${path.dirname(configFilePath)})`
+      .gray('Config File Initialized:')} ${kleur.dim(path.dirname(configFilePath))}/${kleur.cyan(
+      OPEN_API_CONFIG.FILE_NAME
     )}`
   );
 }
