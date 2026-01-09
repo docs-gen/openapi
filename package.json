@@ -5,7 +5,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/interfaces/index.d.ts",
+      "types": "./src/utils/interfaces/index.d.ts",
       "import": "./src/index.js"
     }
   },
