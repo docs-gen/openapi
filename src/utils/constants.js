@@ -15,6 +15,10 @@ export const OPEN_API_CONFIG = {
     },
   ],
   SCHEMA_FILES_MAP: {
+    TEMPLATES_DIR: 'templates',
+    CONFIG_DIR: 'config',
+    OPENAPI_DIR: 'openapi',
+    COMMON_DIR: 'common',
     '3.0.0': '3.0.0.gen.schema.json',
     '3.1.0': '3.1.0.gen.schema.json',
     '3.2.0': '3.2.0.gen.schema.json',

@@ -1,5 +1,5 @@
 // import local modules
-import { OPEN_API_CONFIG } from '../constants/index.js';
+import { OPEN_API_CONFIG } from './constants.js';
 
 // import external modules
 import fs from 'fs/promises';
@@ -15,10 +15,10 @@ export async function configFileExists(filePath) {
 }
 
 // function to resolve schema file path and read its content
-export async function readSchemaFile({ openAPIVersion }) {
+export async function readSchemaFile({ dirName, openAPIVersion }) {
   const __filename = url.fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const schemaDir = path.join(__dirname, '../schemas');
+  const schemaDir = path.join(__dirname, `../schemas/${dirName}`);
   const schemaFilePath = path.resolve(
     schemaDir,
     `${OPEN_API_CONFIG.SCHEMA_FILES_MAP[openAPIVersion]}`
