@@ -1,21 +1,13 @@
 // import local modules
 import { OPEN_API_CONFIG } from '../../constants/index.js';
 import { initialize } from '../../lib/initialize.js';
+import { configFileExists } from '../../lib/utils.js';
 
 // import external modules
-import fs from 'fs/promises';
 import url from 'url';
 import path from 'path';
 import { confirm, select } from '@inquirer/prompts';
 import kleur from 'kleur';
-
-// sub-function to check if a config file already exists
-async function configFileExists(filePath) {
-  return await fs
-    .stat(filePath)
-    .then(() => true)
-    .catch(() => false);
-}
 
 // sub-function to confirm overwriting an existing config file
 async function confirmOverwrite() {
