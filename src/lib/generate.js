@@ -1,6 +1,6 @@
 // import local modules
 import { configFileExists } from '../utils/helpers.js';
-import { validate } from './validate.js';
+import { validate } from '../utils/validate.js';
 
 // import external modules
 import url from 'url';
