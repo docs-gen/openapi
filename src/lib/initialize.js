@@ -10,6 +10,22 @@ import util from 'util';
 function generateConfigFileContents({ schemaFileContents, typeDefVersion }) {
   return `/**
  * @type {import('@docs-gen/openapi').${typeDefVersion}}
+ *
+ * ⚠ IntelliSense Notice
+ *
+ * Type suggestions, auto-completion, and hover information require IntelliSense,
+ * which only works if the package is installed locally:
+ *
+ * Run the following command in your project root:
+ *
+ * ┌──────────────────────────────────────────────────────────────┐
+ * │                                                              │
+ * │               npm install -D @docs-gen/openapi               │
+ * │                                                              │
+ * └──────────────────────────────────────────────────────────────┘
+ *
+ * If you are using this tool via npx, the configuration will still work,
+ * but your editor won't be able to provide IntelliSense.
  */
 
 export default ${util.inspect(JSON.parse(schemaFileContents), {
