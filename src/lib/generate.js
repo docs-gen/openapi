@@ -24,7 +24,10 @@ export async function generate({ configFilePath }) {
     if (!configModule) throw new Error('Failed to load config from the file');
 
     // validate the config module
-    await validate({ configModule });
+    const { validationResult, validationErrors } = await validate({ configModule });
+
+    // if not valid, log errors
+    if (!validationResult) throw new Error(validationErrors.map(vErr => `\n${vErr.message}`));
   } catch (error) {
     console.error(
       `${kleur.red('✖')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur
