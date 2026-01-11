@@ -1,34 +1,39 @@
 // import local modules
 import { OPEN_API_CONFIG } from './constants.js';
-import { readSchemaFile } from './helpers.js';
-
-// import external modules
-import Ajv from 'ajv';
-
-// sub-function to validate config file against schema
-function validateSchema(configModule, parsedSchema) {
-  const ajv = new Ajv({ allErrors: true, strict: true });
-  const validate = ajv.compile(parsedSchema);
-  return validate(configModule);
-}
+import { getSchemaFilePath, getSchemaFileContents, validateSchema } from './helpers.js';
 
 // function to validate the config file
 export async function validate({ configModule }) {
-  // basic validation to check required fields
+  // check if openapi version is present
   if (!configModule._internalConfig.openapi)
     throw new Error('Missing openapi version in _internalConfig');
 
-  // get schema file content
-  const schemaFileContent = await readSchemaFile({
+  // get openapi version schema file path
+  const openAPISchemaFilePath = getSchemaFilePath({
     dirName: OPEN_API_CONFIG.SCHEMA_FILES_MAP.CONFIG_DIR,
-    openAPIVersion: configModule._internalConfig.openapi,
+    fileName: OPEN_API_CONFIG.SCHEMA_FILES_MAP[configModule._internalConfig.openapi],
   });
-  if (!schemaFileContent)
-    throw new Error(`OpenAPI version ${configModule._internalConfig.openapi} is not supported`);
 
-  // parse schema file content
-  const parsedSchema = JSON.parse(schemaFileContent);
+  // get openapi version schema file contents
+  const openAPISchemaFileContents = await getSchemaFileContents({
+    schemaFilePath: openAPISchemaFilePath,
+  });
 
-  // validate config file against schema
-  const validatedSchema = validateSchema(configModule, parsedSchema);
+  // get common config schema file path
+  const commonConfigSchemaFilePath = getSchemaFilePath({
+    dirName: OPEN_API_CONFIG.SCHEMA_FILES_MAP.COMMON_DIR,
+    fileName: OPEN_API_CONFIG.SCHEMA_FILES_MAP.common_config,
+  });
+
+  // get common config schema file contents
+  const commonConfigSchemaFileContents = await getSchemaFileContents({
+    schemaFilePath: commonConfigSchemaFilePath,
+  });
+
+  // validate configModule against its schema
+  return await validateSchema({
+    validationModule: configModule,
+    moduleSchema: JSON.parse(openAPISchemaFileContents),
+    additionalSchemas: [JSON.parse(commonConfigSchemaFileContents)],
+  });
 }
