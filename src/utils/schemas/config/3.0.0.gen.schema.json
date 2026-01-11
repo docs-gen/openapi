@@ -1,17 +1,37 @@
 {
-  "_internalConfig": {
-    "openapi": "3.0.0"
-  },
-  "openAPIConfig": {
-    "info": {
-      "title": "",
-      "version": ""
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:docs-gen:schema:config:3.0.0",
+  "title": "OpenAPI 3.0.x Config Schema",
+  "description": "Schema for config of OpenAPI version 3.0.x",
+  "allOf": [
+    { "$ref": "urn:docs-gen:schema:config:common" },
+    {
+      "type": "object",
+      "properties": {
+        "_internalConfig": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["openapi"],
+          "properties": { "openapi": { "const": "3.0.0" } }
+        },
+        "openAPIConfig": {
+          "properties": {
+            "info": {
+              "properties": {
+                "license": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name"],
+                  "properties": {
+                    "name": { "type": "string", "minLength": 1 },
+                    "url": { "type": "string", "format": "uri" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  },
-  "generatorConfig": {
-    "baseDir": "",
-    "filePatterns": [],
-    "outputDir": "",
-    "outputFileName": ""
-  }
+  ]
 }
