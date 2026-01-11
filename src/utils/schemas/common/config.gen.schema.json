@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:docs-gen:schema:config:common",
+  "title": "Common Config Schema",
+  "description": "Shared config schema for docs-gen across all OpenAPI versions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["_internalConfig", "openAPIConfig", "generatorConfig"],
+  "properties": {
+    "_internalConfig": { "type": "object", "additionalProperties": true },
+    "openAPIConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["info"],
+      "properties": {
+        "info": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["title", "version"],
+          "properties": {
+            "title": { "type": "string", "minLength": 1 },
+            "version": { "type": "string", "minLength": 1 },
+            "description": { "type": "string", "minLength": 1 },
+            "termsOfService": { "type": "string", "format": "uri" },
+            "contact": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "url": { "type": "string", "format": "uri" },
+                "email": { "type": "string", "format": "email" }
+              }
+            },
+            "license": { "type": "object", "additionalProperties": true }
+          }
+        }
+      }
+    },
+    "generatorConfig": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseDir", "filePatterns", "outputDir", "outputFileName"],
+      "properties": {
+        "baseDir": { "type": "string", "minLength": 1 },
+        "filePatterns": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "outputDir": { "type": "string", "minLength": 1 },
+        "outputFileName": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
