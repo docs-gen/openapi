@@ -15,8 +15,10 @@
           "properties": { "openapi": { "const": "3.0.0" } }
         },
         "openAPIConfig": {
+          "type": "object",
           "properties": {
             "info": {
+              "type": "object",
               "properties": {
                 "license": {
                   "type": "object",
