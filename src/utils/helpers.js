@@ -14,15 +14,15 @@ export async function configFileExists(filePath) {
     .catch(() => false);
 }
 
-// function to resolve schema file path and read its content
-export async function readSchemaFile({ dirName, openAPIVersion }) {
+// function to resolve and get schema file path
+export function getSchemaFilePath({ dirName, fileName }) {
   const __filename = url.fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const schemaDir = path.join(__dirname, `./schemas/${dirName}`);
-  const schemaFilePath = path.resolve(
-    schemaDir,
-    `${OPEN_API_CONFIG.SCHEMA_FILES_MAP[openAPIVersion]}`
-  );
+  return path.resolve(schemaDir, fileName);
+}
 
+// function to read schema file contents
+export async function readSchemaFile({ schemaFilePath }) {
   return await fs.readFile(schemaFilePath, 'utf-8');
 }
