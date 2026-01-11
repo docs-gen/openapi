@@ -22,7 +22,7 @@ export function getSchemaFilePath({ dirName, fileName }) {
   return path.resolve(schemaDir, fileName);
 }
 
-// function to read schema file contents
-export async function readSchemaFile({ schemaFilePath }) {
+// function to get schema file contents
+export async function getSchemaFileContents({ schemaFilePath }) {
   return await fs.readFile(schemaFilePath, 'utf-8');
 }
