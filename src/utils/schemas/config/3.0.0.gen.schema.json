@@ -12,7 +12,18 @@
           "type": "object",
           "additionalProperties": false,
           "required": ["openapi"],
-          "properties": { "openapi": { "const": "3.0.0" } }
+          "properties": {
+            "openapi": { "const": "3.0.0" }
+          },
+          "errorMessage": {
+            "additionalProperties": "_internalConfig allowed fields: [openapi]",
+            "required": {
+              "openapi": "_internalConfig.openapi field is required"
+            },
+            "properties": {
+              "openapi": "_internalConfig.openapi field must be 3.0.0"
+            }
+          }
         },
         "openAPIConfig": {
           "type": "object",
@@ -27,6 +38,16 @@
                   "properties": {
                     "name": { "type": "string", "minLength": 1 },
                     "url": { "type": "string", "format": "uri" }
+                  },
+                  "errorMessage": {
+                    "additionalProperties": "license allowed fields: [name, url]",
+                    "required": {
+                      "name": "license.name is required"
+                    },
+                    "properties": {
+                      "name": "license.name must be a non-empty string",
+                      "url": "license.url must be a valid URL"
+                    }
                   }
                 }
               }
