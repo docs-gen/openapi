@@ -5,8 +5,15 @@ import { getSchemaFilePath, getSchemaFileContents, validateSchema } from './help
 // function to validate the config file
 export async function validate({ configModule }) {
   // check if openapi version is present
-  if (!configModule._internalConfig.openapi)
-    throw new Error('Missing openapi version in _internalConfig');
+  if (!configModule._internalConfig.openapi) throw new Error('Missing _internalConfig.openapi');
+
+  // check if openapi version is supported
+  if (
+    !Object.values(OPEN_API_CONFIG.SUPPORTED_OPEN_API_VERSIONS)
+      .map(v => v.value)
+      .includes(configModule._internalConfig.openapi)
+  )
+    throw new Error('Unsupported _internalConfig.openapi');
 
   // get openapi version schema file path
   const openAPISchemaFilePath = getSchemaFilePath({
