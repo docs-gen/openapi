@@ -18,11 +18,11 @@ export const OPEN_API_CONFIG = {
     TEMPLATES_DIR: 'templates',
     CONFIG_DIR: 'config',
     OPENAPI_DIR: 'openapi',
-    COMMON_DIR: 'common',
+    DEFINITIONS_DIR: 'definitions',
     '3.0.0': '3.0.0.gen.schema.json',
     '3.1.0': '3.1.0.gen.schema.json',
     '3.2.0': '3.2.0.gen.schema.json',
-    common_config: 'config.gen.schema.json',
+    definitions_config: 'config.gen.schema.json',
   },
   TYPE_DEFS_MAP: {
     '3.0.0': 'DocsGeneratorOptionsV30X',

@@ -26,21 +26,21 @@ export async function validate({ configModule }) {
     schemaFilePath: openAPISchemaFilePath,
   });
 
-  // get common config schema file path
-  const commonConfigSchemaFilePath = getSchemaFilePath({
-    dirName: OPEN_API_CONFIG.SCHEMA_FILES_MAP.COMMON_DIR,
-    fileName: OPEN_API_CONFIG.SCHEMA_FILES_MAP.common_config,
+  // get definitions config schema file path
+  const definitionsConfigSchemaFilePath = getSchemaFilePath({
+    dirName: OPEN_API_CONFIG.SCHEMA_FILES_MAP.DEFINITIONS_DIR,
+    fileName: OPEN_API_CONFIG.SCHEMA_FILES_MAP.definitions_config,
   });
 
-  // get common config schema file contents
-  const commonConfigSchemaFileContents = await getSchemaFileContents({
-    schemaFilePath: commonConfigSchemaFilePath,
+  // get definitions config schema file contents
+  const definitionsConfigSchemaFileContents = await getSchemaFileContents({
+    schemaFilePath: definitionsConfigSchemaFilePath,
   });
 
   // validate configModule against its schema
   return await validateSchema({
     validationModule: configModule,
     moduleSchema: JSON.parse(openAPISchemaFileContents),
-    additionalSchemas: [JSON.parse(commonConfigSchemaFileContents)],
+    additionalSchemas: [JSON.parse(definitionsConfigSchemaFileContents)],
   });
 }
