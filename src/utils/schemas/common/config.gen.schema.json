@@ -6,6 +6,65 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["_internalConfig", "openAPIConfig", "generatorConfig"],
+  "definitions": {
+    "oauthFlowImplicit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorizationUrl", "scopes"],
+      "properties": {
+        "authorizationUrl": { "type": "string", "format": "uri" },
+        "refreshUrl": { "type": "string", "format": "uri" },
+        "scopes": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "oauthFlowPassword": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tokenUrl", "scopes"],
+      "properties": {
+        "tokenUrl": { "type": "string", "format": "uri" },
+        "refreshUrl": { "type": "string", "format": "uri" },
+        "scopes": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "oauthFlowClientCredentials": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tokenUrl", "scopes"],
+      "properties": {
+        "tokenUrl": { "type": "string", "format": "uri" },
+        "refreshUrl": { "type": "string", "format": "uri" },
+        "scopes": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "oauthFlowAuthorizationCode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorizationUrl", "tokenUrl", "scopes"],
+      "properties": {
+        "authorizationUrl": { "type": "string", "format": "uri" },
+        "tokenUrl": { "type": "string", "format": "uri" },
+        "refreshUrl": { "type": "string", "format": "uri" },
+        "scopes": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
   "properties": {
     "_internalConfig": { "type": "object", "additionalProperties": true },
     "openAPIConfig": {
@@ -57,6 +116,142 @@
             }
           }
         },
+        "securitySchemes": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "title": "API Key Security Scheme",
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["type", "name", "in"],
+                "properties": {
+                  "type": { "const": "apiKey" },
+                  "description": { "type": "string", "minLength": 1 },
+                  "name": { "type": "string", "minLength": 1 },
+                  "in": { "enum": ["query", "header", "cookie"] }
+                },
+                "errorMessage": {
+                  "required": {
+                    "type": "securitySchemes.<name>.type is required",
+                    "name": "securitySchemes.<name>.name is required",
+                    "in": "securitySchemes.<name>.in is required"
+                  },
+                  "properties": {
+                    "type": "apiKey security scheme must have type: 'apiKey'",
+                    "name": "apiKey name must be a non-empty string",
+                    "in": "apiKey.in must be one of: query, header, cookie"
+                  },
+                  "additionalProperties": "apiKey security scheme allows only: [type, description, name, in]"
+                }
+              },
+              {
+                "title": "HTTP Security Scheme",
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["type", "scheme"],
+                "properties": {
+                  "type": { "const": "http" },
+                  "description": { "type": "string", "minLength": 1 },
+                  "scheme": { "type": "string", "minLength": 1 },
+                  "bearerFormat": { "type": "string", "minLength": 1 }
+                },
+                "errorMessage": {
+                  "required": {
+                    "type": "securitySchemes.<name>.type is required",
+                    "scheme": "securitySchemes.<name>.scheme is required"
+                  },
+                  "properties": {
+                    "type": "http security scheme must have type: 'http'",
+                    "scheme": "http.scheme must be a non-empty string",
+                    "bearerFormat": "http.bearerFormat must be a non-empty string"
+                  },
+                  "additionalProperties": "http security scheme allows only: [type, description, scheme, bearerFormat]"
+                }
+              },
+              {
+                "title": "OAuth2 Security Scheme",
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["type", "flows"],
+                "properties": {
+                  "type": { "const": "oauth2" },
+                  "description": { "type": "string", "minLength": 1 },
+                  "flows": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "minProperties": 1,
+                    "properties": {
+                      "implicit": { "$ref": "#/definitions/oauthFlowImplicit" },
+                      "password": { "$ref": "#/definitions/oauthFlowPassword" },
+                      "clientCredentials": { "$ref": "#/definitions/oauthFlowClientCredentials" },
+                      "authorizationCode": { "$ref": "#/definitions/oauthFlowAuthorizationCode" }
+                    },
+                    "errorMessage": {
+                      "minProperties": "oauth2.flows must define at least one OAuth flow",
+                      "additionalProperties": "oauth2.flows allowed properties: [implicit, password, clientCredentials, authorizationCode]"
+                    }
+                  }
+                },
+                "errorMessage": {
+                  "required": {
+                    "type": "securitySchemes.<name>.type is required",
+                    "flows": "securitySchemes.<name>.flows is required"
+                  },
+                  "properties": {
+                    "type": "oauth2 security scheme must have type: 'oauth2'",
+                    "flows": "oauth2.flows must be an object defining at least one flow"
+                  },
+                  "additionalProperties": "oauth2 security scheme allows only: [type, description, flows]"
+                }
+              },
+              {
+                "title": "OpenID Connect Security Scheme",
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["type", "openIdConnectUrl"],
+                "properties": {
+                  "type": { "const": "openIdConnect" },
+                  "description": { "type": "string", "minLength": 1 },
+                  "openIdConnectUrl": { "type": "string", "format": "uri" }
+                },
+                "errorMessage": {
+                  "required": {
+                    "type": "securitySchemes.<name>.type is required",
+                    "openIdConnectUrl": "securitySchemes.<name>.openIdConnectUrl is required"
+                  },
+                  "properties": {
+                    "type": "openIdConnect security scheme must have type: 'openIdConnect'",
+                    "openIdConnectUrl": "openIdConnectUrl must be a valid URL"
+                  },
+                  "additionalProperties": "openIdConnect security scheme allows only: [type, description, openIdConnectUrl]"
+                }
+              },
+              {
+                "title": "Mutual TLS Security Scheme",
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["type"],
+                "properties": {
+                  "type": { "const": "mutualTLS" },
+                  "description": { "type": "string", "minLength": 1 }
+                },
+                "errorMessage": {
+                  "required": {
+                    "type": "securitySchemes.<name>.type is required"
+                  },
+                  "properties": {
+                    "type": "mutualTLS security scheme must have type: 'mutualTLS'"
+                  },
+                  "additionalProperties": "mutualTLS security scheme allows only: [type, description]"
+                }
+              }
+            ]
+          },
+          "errorMessage": {
+            "additionalProperties": "securitySchemes allowed properties: security scheme names"
+          }
+        },
         "security": {
           "type": "array",
           "items": {
@@ -66,7 +261,7 @@
               "items": { "type": "string", "minLength": 1 }
             },
             "errorMessage": {
-              "additionalProperties": "security[] allowed properties: security scheme names with array of scopes"
+              "type": "Each security requirement must be an object mapping scheme names to scope arrays"
             }
           }
         },
@@ -168,12 +363,13 @@
         }
       },
       "errorMessage": {
-        "additionalProperties": "openAPIConfig allowed properties: [info, security, servers, externalDocs, tags]",
+        "additionalProperties": "openAPIConfig allowed properties: [info, securitySchemes, security, servers, externalDocs, tags]",
         "required": {
           "info": "openAPIConfig.info is required"
         },
         "properties": {
           "info": "openAPIConfig.info must be an object",
+          "securitySchemes": "openAPIConfig.securitySchemes must be an object of security scheme definitions",
           "security": "openAPIConfig.security must be an array of objects",
           "servers": "openAPIConfig.servers must be an array of objects",
           "externalDocs": "openAPIConfig.externalDocs must be an object",
