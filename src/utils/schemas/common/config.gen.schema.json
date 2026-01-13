@@ -56,15 +56,35 @@
               "license": "info.license must be an object"
             }
           }
+        },
+        "externalDocs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["url"],
+          "properties": {
+            "description": { "type": "string", "minLength": 1 },
+            "url": { "type": "string", "format": "uri" }
+          },
+          "errorMessage": {
+            "additionalProperties": "openAPIConfig.externalDocs allowed properties: [description, url]",
+            "required": {
+              "url": "externalDocs.url is required"
+            },
+            "properties": {
+              "description": "externalDocs.description must be a non-empty string",
+              "url": "externalDocs.url must be a valid URL"
+            }
+          }
         }
       },
       "errorMessage": {
-        "additionalProperties": "openAPIConfig allowed properties: [info]",
+        "additionalProperties": "openAPIConfig allowed properties: [info, externalDocs]",
         "required": {
           "info": "openAPIConfig.info is required"
         },
         "properties": {
-          "info": "openAPIConfig.info must be an object"
+          "info": "openAPIConfig.info must be an object",
+          "externalDocs": "openAPIConfig.externalDocs must be an object"
         }
       }
     },
