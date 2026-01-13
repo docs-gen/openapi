@@ -1,31 +1,23 @@
 import {
-  ContactObject,
+  InfoBase,
+  LicenseWithUrl,
   ApiKeySecuritySchemeObject,
   HttpSecuritySchemeObject,
   OAuth2SecuritySchemeObject,
   OpenIDConnectSecuritySchemeObject,
   SecurityRequirementObject,
-  ServerObject,
-  TagObject,
+  ServerBase,
+  TagBase,
   ExternalDocsObject,
   generatorConfigObject,
 } from './common.gen';
 
-// License Interface
-interface LicenseObject {
-  name: string;
-  url?: string;
+interface InfoObject extends InfoBase {
+  license?: LicenseWithUrl;
 }
 
-// Info Interface
-interface InfoObject {
-  title: string;
-  version: string;
-  description?: string;
-  termsOfService?: string;
-  contact?: ContactObject;
-  license?: LicenseObject;
-}
+interface ServerObject extends ServerBase {}
+interface TagObject extends TagBase {}
 
 export interface DocsGeneratorOptions {
   readonly _internalConfig: {

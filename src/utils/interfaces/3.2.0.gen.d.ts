@@ -1,30 +1,33 @@
 import {
-  InfoObject,
+  InfoBase,
+  LicenseWithUrl,
+  LicenseWithIdentifier,
   ApiKeySecuritySchemeObject,
   HttpSecuritySchemeObject,
   MutualTLSSecuritySchemeObject,
   OAuth2SecuritySchemeObject,
   OpenIDConnectSecuritySchemeObject,
   SecurityRequirementObject,
-  ServerVariablesObject,
+  ServerBase,
+  TagBase,
   ExternalDocsObject,
   generatorConfigObject,
 } from './common.gen';
 
-// Server Interface
-interface ServerObject {
-  url: string;
-  description?: string;
-  name?: string;
-  variables?: Record<string, ServerVariablesObject>;
+// Info Interface
+interface InfoObject extends InfoBase {
+  summary?: string;
+  license?: LicenseWithUrl | LicenseWithIdentifier;
 }
 
-// Tag Type-defs
-interface TagObject {
-  name: string;
+// Server Interface
+interface ServerObject extends ServerBase {
+  name?: string;
+}
+
+// Tag Interface
+interface TagObject extends TagBase {
   summary?: string;
-  description?: string;
-  externalDocs?: ExternalDocsObject;
 }
 
 export interface DocsGeneratorOptions {

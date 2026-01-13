@@ -64,7 +64,7 @@ export interface OpenIDConnectSecuritySchemeObject {
 }
 
 // Metadata Interfaces
-export interface ContactObject {
+interface ContactObject {
   name?: string;
   email?: string;
   url?: string;
@@ -74,22 +74,22 @@ export interface ExternalDocsObject {
   description?: string;
   url: string;
 }
-
-export interface TagObject {
+// Base Tag Interface
+export interface TagBase {
   name: string;
   description?: string;
   externalDocs?: ExternalDocsObject;
 }
 
 // Server Variables Interface
-export interface ServerVariablesObject {
+interface ServerVariablesObject {
   enum?: string[];
   default: string;
   description?: string;
 }
 
-// Server Interface
-export interface ServerObject {
+// Base Server Interface
+export interface ServerBase {
   url: string;
   description?: string;
   variables?: Record<string, ServerVariablesObject>;
@@ -100,27 +100,30 @@ export interface SecurityRequirementObject {
   [securitySchemeName: string]: string[];
 }
 
-// License Interfaces
-interface LicenseWithIdentifier {
+// Base License Interface
+interface LicenseBase {
   name: string;
-  identifier: string;
-  url?: never;
 }
-interface LicenseWithUrl {
-  name: string;
+
+// License with URL Interface
+export interface LicenseWithUrl extends LicenseBase {
   url: string;
   identifier?: never;
 }
 
-// Info Interface
-export interface InfoObject {
+// License with Identifier Interface
+export interface LicenseWithIdentifier extends LicenseBase {
+  identifier: string;
+  url?: never;
+}
+
+// Base Info Interface
+export interface InfoBase {
   title: string;
   version: string;
-  summary?: string;
   description?: string;
   termsOfService?: string;
   contact?: ContactObject;
-  license?: LicenseWithIdentifier | LicenseWithUrl;
 }
 
 // Docs-Generator-Options Interface
