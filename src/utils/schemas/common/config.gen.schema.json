@@ -57,6 +57,57 @@
             }
           }
         },
+        "servers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["url"],
+            "properties": {
+              "url": { "type": "string", "minLength": 1 },
+              "description": { "type": "string", "minLength": 1 },
+              "variables": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["default"],
+                  "properties": {
+                    "enum": {
+                      "type": "array",
+                      "items": { "type": "string", "minLength": 1 },
+                      "minItems": 1
+                    },
+                    "default": { "type": "string", "minLength": 1 },
+                    "description": { "type": "string", "minLength": 1 }
+                  },
+                  "errorMessage": {
+                    "additionalProperties": "servers[].variables allowed properties: [enum, default, description]",
+                    "required": {
+                      "default": "servers[].variables.<name>.default is required"
+                    },
+                    "properties": {
+                      "enum": "servers[].variables.<name>.enum must be a non-empty array of strings",
+                      "default": "servers[].variables.<name>.default must be a non-empty string",
+                      "description": "servers[].variables.<name>.description must be a non-empty string"
+                    }
+                  }
+                }
+              }
+            },
+            "errorMessage": {
+              "additionalProperties": "servers[] allowed properties: [url, description, variables]",
+              "required": {
+                "url": "servers[].url is required"
+              },
+              "properties": {
+                "url": "servers[].url must be a valid URL",
+                "description": "servers[].description must be a non-empty string",
+                "variables": "servers[].variables must be an object"
+              }
+            }
+          }
+        },
         "externalDocs": {
           "type": "object",
           "additionalProperties": false,
@@ -104,12 +155,13 @@
         }
       },
       "errorMessage": {
-        "additionalProperties": "openAPIConfig allowed properties: [info, externalDocs, tags]",
+        "additionalProperties": "openAPIConfig allowed properties: [info, servers, externalDocs, tags]",
         "required": {
           "info": "openAPIConfig.info is required"
         },
         "properties": {
           "info": "openAPIConfig.info must be an object",
+          "servers": "openAPIConfig.servers must be an array of objects",
           "externalDocs": "openAPIConfig.externalDocs must be an object",
           "tags": "openAPIConfig.tags must be an array of objects"
         }
