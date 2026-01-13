@@ -57,6 +57,19 @@
             }
           }
         },
+        "security": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "errorMessage": {
+              "additionalProperties": "security[] allowed properties: security scheme names with array of scopes"
+            }
+          }
+        },
         "servers": {
           "type": "array",
           "items": {
@@ -155,12 +168,13 @@
         }
       },
       "errorMessage": {
-        "additionalProperties": "openAPIConfig allowed properties: [info, servers, externalDocs, tags]",
+        "additionalProperties": "openAPIConfig allowed properties: [info, security, servers, externalDocs, tags]",
         "required": {
           "info": "openAPIConfig.info is required"
         },
         "properties": {
           "info": "openAPIConfig.info must be an object",
+          "security": "openAPIConfig.security must be an array of objects",
           "servers": "openAPIConfig.servers must be an array of objects",
           "externalDocs": "openAPIConfig.externalDocs must be an object",
           "tags": "openAPIConfig.tags must be an array of objects"
