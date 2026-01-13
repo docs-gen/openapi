@@ -16,9 +16,9 @@
             "openapi": { "const": "3.0.0" }
           },
           "errorMessage": {
-            "additionalProperties": "_internalConfig allowed fields: [openapi]",
+            "additionalProperties": "_internalConfig allowed properties: [openapi]",
             "required": {
-              "openapi": "_internalConfig.openapi field is required"
+              "openapi": "_internalConfig.openapi is required"
             },
             "properties": {
               "openapi": "_internalConfig.openapi field must be 3.0.0"
@@ -40,7 +40,7 @@
                     "url": { "type": "string", "format": "uri" }
                   },
                   "errorMessage": {
-                    "additionalProperties": "license allowed fields: [name, url]",
+                    "additionalProperties": "info.license allowed properties: [name, url]",
                     "required": {
                       "name": "license.name is required"
                     },

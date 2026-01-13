@@ -29,10 +29,42 @@
                 "name": { "type": "string", "minLength": 1 },
                 "url": { "type": "string", "format": "uri" },
                 "email": { "type": "string", "format": "email" }
+              },
+              "errorMessage": {
+                "additionalProperties": "info.contact allowed properties: [name, url, email]",
+                "properties": {
+                  "name": "info.contact.name must be a non-empty string",
+                  "url": "info.contact.url must be a valid URL",
+                  "email": "info.contact.email must be a valid email"
+                }
               }
             },
             "license": { "type": "object", "additionalProperties": true }
+          },
+          "errorMessage": {
+            "additionalProperties": "openAPIConfig.info allowed properties: [title, version, description, termsOfService, contact, license]",
+            "required": {
+              "title": "info.title is required",
+              "version": "info.version is required"
+            },
+            "properties": {
+              "title": "info.title must be a non-empty string",
+              "version": "info.version must be a non-empty string",
+              "description": "info.description must be a non-empty string",
+              "termsOfService": "info.termsOfService must be a valid URL",
+              "contact": "info.contact must be an object",
+              "license": "info.license must be an object"
+            }
           }
+        }
+      },
+      "errorMessage": {
+        "additionalProperties": "openAPIConfig allowed properties: [info]",
+        "required": {
+          "info": "openAPIConfig.info is required"
+        },
+        "properties": {
+          "info": "openAPIConfig.info must be an object"
         }
       }
     },
@@ -49,7 +81,30 @@
         },
         "outputDir": { "type": "string", "minLength": 1 },
         "outputFileName": { "type": "string", "minLength": 1 }
+      },
+      "errorMessage": {
+        "additionalProperties": "generatorConfig allowed properties: [baseDir, filePatterns, outputDir, outputFileName]",
+        "required": {
+          "baseDir": "generatorConfig.baseDir is required",
+          "filePatterns": "generatorConfig.filePatterns is required",
+          "outputDir": "generatorConfig.outputDir is required",
+          "outputFileName": "generatorConfig.outputFileName is required"
+        },
+        "properties": {
+          "baseDir": "generatorConfig.baseDir must be a non-empty string",
+          "filePatterns": "generatorConfig.filePatterns must be a non-empty array of strings",
+          "outputDir": "generatorConfig.outputDir must be a non-empty string",
+          "outputFileName": "generatorConfig.outputFileName must be a non-empty string"
+        }
       }
+    }
+  },
+  "errorMessage": {
+    "additionalProperties": "docs-gen.config.js allowed properties: [_internalConfig, openAPIConfig, generatorConfig]",
+    "required": {
+      "_internalConfig": "_internalConfig is required",
+      "openAPIConfig": "openAPIConfig is required",
+      "generatorConfig": "generatorConfig is required"
     }
   }
 }
