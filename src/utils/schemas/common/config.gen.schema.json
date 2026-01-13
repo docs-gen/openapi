@@ -75,16 +75,43 @@
               "url": "externalDocs.url must be a valid URL"
             }
           }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "description": { "type": "string", "minLength": 1 },
+              "externalDocs": {
+                "$ref": "#/properties/openAPIConfig/properties/externalDocs"
+              }
+            },
+            "errorMessage": {
+              "additionalProperties": "tags[] allowed properties: [name, description, externalDocs]",
+              "required": {
+                "name": "tags[].name is required"
+              },
+              "properties": {
+                "name": "tags[].name must be a non-empty string",
+                "description": "tags[].description must be a non-empty string",
+                "externalDocs": "tags[].externalDocs must be an object"
+              }
+            }
+          }
         }
       },
       "errorMessage": {
-        "additionalProperties": "openAPIConfig allowed properties: [info, externalDocs]",
+        "additionalProperties": "openAPIConfig allowed properties: [info, externalDocs, tags]",
         "required": {
           "info": "openAPIConfig.info is required"
         },
         "properties": {
           "info": "openAPIConfig.info must be an object",
-          "externalDocs": "openAPIConfig.externalDocs must be an object"
+          "externalDocs": "openAPIConfig.externalDocs must be an object",
+          "tags": "openAPIConfig.tags must be an array of objects"
         }
       }
     },
