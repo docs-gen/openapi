@@ -41,6 +41,6 @@ export async function validate({ configModule }) {
   return await validateSchema({
     validationModule: configModule,
     moduleSchema: JSON.parse(openAPISchemaFileContents),
-    additionalSchemas: [JSON.parse(commonConfigSchemaFilePath)],
+    additionalSchemas: [JSON.parse(commonConfigSchemaFileContents)],
   });
 }
