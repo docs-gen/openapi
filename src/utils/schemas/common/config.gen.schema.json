@@ -4,7 +4,7 @@
   "title": "Common Config Schema",
   "description": "Shared config schema for docs-gen across all OpenAPI versions",
   "type": "object",
-  "required": ["generatorConfig"],
+  "required": ["_internalConfig", "openAPIConfig", "generatorConfig"],
   "definitions": {
     "Global": {
       "Primitives": {
@@ -256,15 +256,31 @@
         "outputDir": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "outputFileName": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "errorMessage": {
+        "type": "generatorConfig must be an object",
+        "required": {
+          "baseDir": "generatorConfig.baseDir is required",
+          "filePatterns": "generatorConfig.filePatterns is required",
+          "outputDir": "generatorConfig.outputDir is required",
+          "outputFileName": "generatorConfig.outputFileName is required"
+        },
+        "properties": {
+          "baseDir": "generatorConfig.baseDir must be a non-empty string",
+          "filePatterns": "generatorConfig.filePatterns must be a non-empty array of strings",
+          "outputDir": "generatorConfig.outputDir must be a non-empty string",
+          "outputFileName": "generatorConfig.outputFileName must be a non-empty string"
+        },
+        "additionalProperties": "generatorConfig allowed properties: [baseDir, filePatterns, outputDir, outputFileName]"
+      }
     }
   },
   "properties": {
     "_internalConfig": { "type": "object", "additionalProperties": true },
 
-    "openAPIConfig": {},
+    "openAPIConfig": { "type": "object", "additionalProperties": true },
 
-    "generatorConfig": {}
+    "generatorConfig": { "$ref": "#/definitions/GeneratorConfigObject" }
   },
   "additionalProperties": false,
   "errorMessage": {
