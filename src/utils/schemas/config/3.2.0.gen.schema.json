@@ -1,18 +1,35 @@
 {
-  "_internalConfig": {
-    "openapi": "3.2.0",
-    "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema"
-  },
-  "openAPIConfig": {
-    "info": {
-      "title": "",
-      "version": ""
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:docs-gen:schema:config:3.2.0",
+  "title": "OpenAPI 3.2.x Config Schema",
+  "description": "Schema for config of OpenAPI version 3.2.x",
+  "allOf": [
+    { "$ref": "urn:docs-gen:schema:config:common" },
+    {
+      "type": "object",
+      "properties": {
+        "_internalConfig": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["openapi", "jsonSchemaDialect"],
+          "properties": {
+            "openapi": { "const": "3.2.0" },
+            "jsonSchemaDialect": { "const": "https://json-schema.org/draft/2020-12/schema" }
+          },
+          "errorMessage": {
+            "type": "_internalConfig must be an object",
+            "required": {
+              "openapi": "_internalConfig.openapi is required"
+            },
+            "properties": {
+              "openapi": "_internalConfig.openapi field must be 3.2.0",
+              "jsonSchemaDialect": "_internalConfig.jsonSchemaDialect field must be https://json-schema.org/draft/2020-12/schema"
+            },
+            "additionalProperties": "_internalConfig allowed properties: [openapi, jsonSchemaDialect]"
+          }
+        },
+        "openAPIConfig": {}
+      }
     }
-  },
-  "generatorConfig": {
-    "baseDir": "",
-    "filePatterns": [],
-    "outputDir": "",
-    "outputFileName": ""
-  }
+  ]
 }
