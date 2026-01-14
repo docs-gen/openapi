@@ -1,0 +1,279 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:docs-gen:schema:config:common",
+  "title": "Common Config Schema",
+  "description": "Shared config schema for docs-gen across all OpenAPI versions",
+  "type": "object",
+  "required": ["generatorConfig"],
+  "definitions": {
+    "Global": {
+      "Primitives": {
+        "URL": {
+          "type": "string",
+          "format": "uri-reference",
+          "minLength": 1
+        },
+        "EMAIL": {
+          "type": "string",
+          "format": "email",
+          "minLength": 1
+        },
+        "NON_EMPTY_STRING": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+
+    "OAuth": {
+      "Primitives": {
+        "AuthorizationUrl": { "$ref": "#/definitions/Global/Primitives/URL" },
+        "RefreshUrl": { "$ref": "#/definitions/Global/Primitives/URL" },
+        "TokenUrl": { "$ref": "#/definitions/Global/Primitives/URL" },
+        "Scopes": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+        }
+      },
+      "Flows": {
+        "Implicit": {
+          "type": "object",
+          "required": ["authorizationUrl", "scopes"],
+          "properties": {
+            "authorizationUrl": { "$ref": "#/definitions/OAuth/Primitives/AuthorizationUrl" },
+            "refreshUrl": { "$ref": "#/definitions/OAuth/Primitives/RefreshUrl" },
+            "scopes": { "$ref": "#/definitions/OAuth/Primitives/Scopes" }
+          },
+          "additionalProperties": false
+        },
+        "Password": {
+          "type": "object",
+          "required": ["tokenUrl", "scopes"],
+          "properties": {
+            "tokenUrl": { "$ref": "#/definitions/OAuth/Primitives/TokenUrl" },
+            "refreshUrl": { "$ref": "#/definitions/OAuth/Primitives/RefreshUrl" },
+            "scopes": { "$ref": "#/definitions/OAuth/Primitives/Scopes" }
+          },
+          "additionalProperties": false
+        },
+        "ClientCredentials": {
+          "type": "object",
+          "required": ["tokenUrl", "scopes"],
+          "properties": {
+            "tokenUrl": { "$ref": "#/definitions/OAuth/Primitives/TokenUrl" },
+            "refreshUrl": { "$ref": "#/definitions/OAuth/Primitives/RefreshUrl" },
+            "scopes": { "$ref": "#/definitions/OAuth/Primitives/Scopes" }
+          },
+          "additionalProperties": false
+        },
+        "AuthorizationCode": {
+          "type": "object",
+          "required": ["authorizationUrl", "tokenUrl", "scopes"],
+          "properties": {
+            "authorizationUrl": { "$ref": "#/definitions/OAuth/Primitives/AuthorizationUrl" },
+            "tokenUrl": { "$ref": "#/definitions/OAuth/Primitives/TokenUrl" },
+            "refreshUrl": { "$ref": "#/definitions/OAuth/Primitives/RefreshUrl" },
+            "scopes": { "$ref": "#/definitions/OAuth/Primitives/Scopes" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "FlowsObject": {
+        "type": "object",
+        "minProperties": 1,
+        "properties": {
+          "implicit": { "$ref": "#/definitions/OAuth/Flows/Implicit" },
+          "password": { "$ref": "#/definitions/OAuth/Flows/Password" },
+          "clientCredentials": { "$ref": "#/definitions/OAuth/Flows/ClientCredentials" },
+          "authorizationCode": { "$ref": "#/definitions/OAuth/Flows/AuthorizationCode" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "SecuritySchemes": {
+      "ApiKeySecuritySchemeObject": {
+        "type": "object",
+        "required": ["type", "name", "in"],
+        "properties": {
+          "type": { "const": "apiKey" },
+          "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+          "name": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+          "in": { "enum": ["query", "header", "cookie"] }
+        },
+        "additionalProperties": false
+      },
+      "HttpSecuritySchemeObject": {
+        "type": "object",
+        "required": ["type", "scheme"],
+        "properties": {
+          "type": { "const": "http" },
+          "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+          "scheme": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+          "bearerFormat": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+        },
+        "additionalProperties": false
+      },
+      "MutualTLSSecuritySchemeObject": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "const": "mutualTLS" },
+          "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+        },
+        "additionalProperties": false
+      },
+      "OAuth2SecuritySchemeObject": {
+        "type": "object",
+        "required": ["type", "flows"],
+        "properties": {
+          "type": { "const": "oauth2" },
+          "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+          "flows": { "$ref": "#/definitions/OAuth/FlowsObject" }
+        },
+        "additionalProperties": false
+      },
+      "OpenIDConnectSecuritySchemeObject": {
+        "type": "object",
+        "required": ["type", "openIdConnectUrl"],
+        "properties": {
+          "type": { "const": "openIdConnect" },
+          "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+          "openIdConnectUrl": { "$ref": "#/definitions/Global/Primitives/URL" }
+        },
+        "additionalProperties": false
+      }
+    },
+
+    "SecurityRequirementObject": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+      }
+    },
+
+    "ExternalDocsObject": {
+      "type": "object",
+      "required": ["url"],
+      "properties": {
+        "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "url": { "$ref": "#/definitions/Global/Primitives/URL" }
+      },
+      "additionalProperties": false
+    },
+
+    "TagBase": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "externalDocs": { "$ref": "#/definitions/ExternalDocsObject" }
+      },
+      "additionalProperties": false
+    },
+
+    "ServerVariablesObject": {
+      "type": "object",
+      "required": ["default"],
+      "properties": {
+        "enum": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+        },
+        "default": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+      },
+      "additionalProperties": false
+    },
+    "ServerBase": {
+      "type": "object",
+      "required": ["url"],
+      "properties": {
+        "url": { "$ref": "#/definitions/Global/Primitives/URL" },
+        "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "variables": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/ServerVariablesObject" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "LicenseWithUrl": {
+      "type": "object",
+      "required": ["name", "url"],
+      "properties": {
+        "name": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "url": { "$ref": "#/definitions/Global/Primitives/URL" }
+      },
+      "additionalProperties": false
+    },
+    "LicenseWithIdentifier": {
+      "type": "object",
+      "required": ["name", "identifier"],
+      "properties": {
+        "name": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "identifier": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+      },
+      "additionalProperties": false
+    },
+    "ContactObject": {
+      "type": "object",
+      "minProperties": 1,
+      "properties": {
+        "name": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "email": { "$ref": "#/definitions/Global/Primitives/EMAIL" },
+        "url": { "$ref": "#/definitions/Global/Primitives/URL" }
+      },
+      "additionalProperties": false
+    },
+    "InfoBase": {
+      "type": "object",
+      "required": ["title", "version"],
+      "properties": {
+        "title": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "version": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "termsOfService": { "$ref": "#/definitions/Global/Primitives/URL" },
+        "contact": { "$ref": "#/definitions/ContactObject" }
+      },
+      "additionalProperties": false
+    },
+
+    "GeneratorConfigObject": {
+      "type": "object",
+      "required": ["baseDir", "filePatterns", "outputDir", "outputFileName"],
+      "properties": {
+        "baseDir": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "filePatterns": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+        },
+        "outputDir": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
+        "outputFileName": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "_internalConfig": { "type": "object", "additionalProperties": true },
+
+    "openAPIConfig": {},
+
+    "generatorConfig": {}
+  },
+  "additionalProperties": false,
+  "errorMessage": {
+    "type": "docs-gen.config.js must be an object",
+    "required": {
+      "_internalConfig": "_internalConfig is required",
+      "openAPIConfig": "openAPIConfig is required",
+      "generatorConfig": "generatorConfig is required"
+    },
+    "additionalProperties": "docs-gen.config.js allowed properties: [_internalConfig, openAPIConfig, generatorConfig]"
+  }
+}
