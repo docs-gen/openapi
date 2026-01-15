@@ -2,6 +2,7 @@
 
 //import local modules
 import { initializeConfigByCLI } from './commands/init.command.js';
+import { validateConfigByCLI } from './commands/validate.command.js';
 import { generateDocsByCLI } from './commands/generate.command.js';
 import pkg from '../../package.json' with { type: 'json' };
 
@@ -21,6 +22,13 @@ program
   .alias('init')
   .description('Initialize the docs-gen-openapi configuration file')
   .action(initializeConfigByCLI);
+
+// validate CLI command
+program
+  .command('validate')
+  .alias('val')
+  .description('Validate the docs-gen-openapi configuration file')
+  .action(validateConfigByCLI);
 
 // generate CLI command
 program
