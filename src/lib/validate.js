@@ -14,6 +14,9 @@ import kleur from 'kleur';
 // function to validate the config file
 export async function validate({ configFilePath }) {
   try {
+    // check if configFilePath is provided
+    if (!configFilePath) throw new Error('configFilePath is required');
+
     // check if config file exists
     if (!(await configFileExists(configFilePath)))
       throw new Error(`Config file not found at ${configFilePath}`);
