@@ -7,12 +7,12 @@ import path from 'path';
 import kleur from 'kleur';
 
 // function to invoke the generation of docs via CLI
-export async function generateDocsByCLI() {
+export async function generateDocsByCLI(options) {
   try {
     const configFilePath = path.join(process.cwd(), OPEN_API_CONFIG.FILE_NAME);
 
     // invoke generation
-    await generate({ validateConfigFile: true, configFilePath });
+    await generate({ validateConfigFile: options.validate, configFilePath });
   } catch (error) {
     console.error(
       `${kleur.red('✖')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur

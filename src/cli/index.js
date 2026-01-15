@@ -35,12 +35,16 @@ program
   .command('generate')
   .alias('gen')
   .description('Generate documentation following the docs-gen-openapi configuration file')
+  .option('--validate', 'Validate the configuration before generating documentation', true)
+  .option('--no-validate', 'Skip validation of the configuration before generating documentation')
   .action(generateDocsByCLI);
 
 // parse CLI arguments with error handling
 program.parseAsync(process.argv).catch(err => {
   if (err.name === 'ExitPromptError')
     console.error(
-      `${kleur.red('✖')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur.bold().grey('Error during prompt execution:')} ${kleur.red('Operation cancelled by the user')}`
+      `${kleur.red('✖')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur
+        .bold()
+        .grey('Error during prompt execution:')} ${kleur.red('Operation cancelled by the user')}`
     );
 });
