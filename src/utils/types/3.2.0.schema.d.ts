@@ -12,7 +12,7 @@ import {
   TagBase,
   ExternalDocsObject,
   generatorConfigObject,
-} from './common.gen';
+} from './common.schema';
 
 // Info Interface
 interface InfoObject extends InfoBase {

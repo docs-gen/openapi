@@ -1,8 +1,10 @@
 import {
   InfoBase,
   LicenseWithUrl,
+  LicenseWithIdentifier,
   ApiKeySecuritySchemeObject,
   HttpSecuritySchemeObject,
+  MutualTLSSecuritySchemeObject,
   OAuth2SecuritySchemeObject,
   OpenIDConnectSecuritySchemeObject,
   SecurityRequirementObject,
@@ -10,10 +12,11 @@ import {
   TagBase,
   ExternalDocsObject,
   generatorConfigObject,
-} from './common.gen';
+} from './common.schema';
 
 interface InfoObject extends InfoBase {
-  license?: LicenseWithUrl;
+  summary?: string;
+  license?: LicenseWithUrl | LicenseWithIdentifier;
 }
 
 interface ServerObject extends ServerBase {}
@@ -21,7 +24,8 @@ interface TagObject extends TagBase {}
 
 export interface DocsGeneratorOptions {
   readonly _internalConfig: {
-    readonly openapi: '3.0.0';
+    readonly openapi: '3.1.0';
+    readonly jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema';
   };
 
   openAPIConfig: {
@@ -30,6 +34,7 @@ export interface DocsGeneratorOptions {
       string,
       | ApiKeySecuritySchemeObject
       | HttpSecuritySchemeObject
+      | MutualTLSSecuritySchemeObject
       | OAuth2SecuritySchemeObject
       | OpenIDConnectSecuritySchemeObject
     >;
