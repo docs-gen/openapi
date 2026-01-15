@@ -8,6 +8,9 @@ import {
   loadConfig,
 } from '../utils/helpers.js';
 
+// import external modules
+import kleur from 'kleur';
+
 // function to validate the config file
 export async function validate({ configFilePath }) {
   try {
