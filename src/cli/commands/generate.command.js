@@ -12,7 +12,7 @@ export async function generateDocsByCLI() {
     const configFilePath = path.join(process.cwd(), OPEN_API_CONFIG.FILE_NAME);
 
     // invoke generation
-    await generate({ validateFile: true, configFilePath });
+    await generate({ validateConfigFile: true, configFilePath });
   } catch (error) {
     console.error(
       `${kleur.red('✖')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur
