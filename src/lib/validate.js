@@ -9,7 +9,7 @@ import {
 } from '../utils/helpers.js';
 
 // function to validate the config file
-export async function validate({ configFilePath }) {
+export async function validate({ configFilePath } = {}) {
   // check if configFilePath is provided
   if (!configFilePath) throw new Error('configFilePath is required');
 

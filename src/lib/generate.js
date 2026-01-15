@@ -2,7 +2,10 @@
 import { validate } from './validate.js';
 
 // function to generate the docs
-export async function generate({ validateConfigFile, configFilePath }) {
+export async function generate({ validateConfigFile, configFilePath } = {}) {
+  // check if validateConfigFile is provided
+  if (validateConfigFile === undefined) throw new Error('validateConfigFile is required');
+
   // check if configFilePath is provided
   if (!configFilePath) throw new Error('configFilePath is required');
 
