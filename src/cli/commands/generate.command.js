@@ -4,11 +4,20 @@ import { generate } from '../../lib/generate.js';
 
 // import external modules
 import path from 'path';
+import kleur from 'kleur';
 
 // function to invoke the generation of docs via CLI
 export async function generateDocsByCLI() {
-  const configFilePath = path.join(process.cwd(), OPEN_API_CONFIG.FILE_NAME);
+  try {
+    const configFilePath = path.join(process.cwd(), OPEN_API_CONFIG.FILE_NAME);
 
-  // invoke generation
-  await generate({ validateFile: true, configFilePath });
+    // invoke generation
+    await generate({ validateFile: true, configFilePath });
+  } catch (error) {
+    console.error(
+      `${kleur.red('✖')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur
+        .bold()
+        .grey('Error during docs generation:')} ${kleur.red(error.message)}`
+    );
+  }
 }
