@@ -5,13 +5,13 @@ import { validate } from './validate.js';
 import kleur from 'kleur';
 
 // function to generate the docs
-export async function generate({ configFilePath }) {
+export async function generate({ validateFile, configFilePath }) {
   try {
     // check if configFilePath is provided
     if (!configFilePath) throw new Error('configFilePath is required');
 
-    // validate the config file
-    await validate({ configFilePath });
+    // validate the config file if validateFile is true
+    if (validateFile) await validate({ configFilePath });
   } catch (error) {
     console.error(
       `${kleur.red('✖')} ${kleur.bold().blue('@docs-gen/openapi:')} ${kleur

@@ -10,5 +10,5 @@ export async function generateDocsByCLI() {
   const configFilePath = path.join(process.cwd(), OPEN_API_CONFIG.FILE_NAME);
 
   // invoke generation
-  await generate({ configFilePath });
+  await generate({ validateFile: true, configFilePath });
 }
