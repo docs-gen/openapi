@@ -27,6 +27,12 @@ export async function getSchemaFileContents({ schemaFilePath }) {
   return await fs.readFile(schemaFilePath, 'utf-8');
 }
 
+// function to load config
+export async function loadConfig(configFilePath) {
+  const configModule = await import(url.pathToFileURL(configFilePath).href);
+  return configModule.default;
+}
+
 // function to validate module against its schema
 export async function validateSchema({ validationModule, moduleSchema, additionalSchemas }) {
   // create new ajv instance and add plugins
