@@ -10,11 +10,11 @@
       "properties": {
         "_internalConfig": {
           "type": "object",
-          "additionalProperties": false,
           "required": ["openapi"],
           "properties": {
             "openapi": { "const": "3.0.0" }
           },
+          "unevaluatedProperties": false,
           "errorMessage": {
             "type": "_internalConfig must be an object",
             "required": {
@@ -23,7 +23,7 @@
             "properties": {
               "openapi": "_internalConfig.openapi field must be 3.0.0"
             },
-            "additionalProperties": "_internalConfig allowed properties: [openapi]"
+            "unevaluatedProperties": "_internalConfig allowed properties: [openapi]"
           }
         },
         "openAPIConfig": {}
