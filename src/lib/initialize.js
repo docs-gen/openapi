@@ -1,41 +1,13 @@
 // import internal modules
 import { OPEN_API_CONFIG } from '../utils/constants.js';
-import { getSchemaFilePath, getSchemaFileContents } from '../utils/helpers.js';
+import {
+  getSchemaFilePath,
+  getSchemaFileContents,
+  generateConfigFileContents,
+} from '../utils/helpers.js';
 
 // import external modules
 import fs from 'fs/promises';
-import util from 'util';
-
-// sub-function to generate config file contents
-function generateConfigFileContents({ schemaFileContents, typeDefVersion }) {
-  return `/**
- * @type {import('@docs-gen/openapi').${typeDefVersion}}
- *
- * ⚠ IntelliSense Notice
- *
- * Type suggestions, auto-completion, and hover information require IntelliSense,
- * which only works if the package is installed locally:
- *
- * Run the following command in your project root:
- *
- * ┌──────────────────────────────────────────────────────────────┐
- * │                                                              │
- * │               npm install -D @docs-gen/openapi               │
- * │                                                              │
- * └──────────────────────────────────────────────────────────────┘
- *
- * If you are using this tool via npx, the configuration will still work,
- * but your editor won't be able to provide IntelliSense.
- */
-
-export default ${util.inspect(JSON.parse(schemaFileContents), {
-    compact: false,
-    depth: null,
-    maxArrayLength: null,
-    maxStringLength: null,
-    sorted: false,
-  })};`;
-}
 
 // function to initialize a config file
 export async function initialize({ openAPIVersion, configFilePath }) {
