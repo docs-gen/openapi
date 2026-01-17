@@ -49,6 +49,21 @@
                 "unevaluatedProperties": "info allowed properties: [title, version, description, termsOfService, contact, license]"
               }
             },
+            "servers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "allOf": [{ "$ref": "urn:docs-gen:schema:config:common#/definitions/ServerBase" }],
+                "unevaluatedProperties": false,
+                "errorMessage": {
+                  "type": "servers[server] must be an object",
+                  "unevaluatedProperties": "server allowed properties: [url, description, variables]"
+                }
+              },
+              "errorMessage": {
+                "type": "openAPIConfig.servers must be an array"
+              }
+            },
             "externalDocs": {
               "$ref": "urn:docs-gen:schema:config:common#/definitions/ExternalDocsObject"
             },

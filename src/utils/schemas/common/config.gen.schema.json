@@ -211,7 +211,19 @@
         "default": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
       },
-      "additionalProperties": false
+      "unevaluatedProperties": false,
+      "errorMessage": {
+        "type": "variables.variable must be an object",
+        "required": {
+          "default": "variable.default is required"
+        },
+        "properties": {
+          "enum": "variable.enum must be a non-empty array of strings",
+          "default": "variable.default must be a non-empty string",
+          "description": "variable.description must be a non-empty string"
+        },
+        "unevaluatedProperties": "variables.variable allowed properties: [enum, default, description]"
+      }
     },
     "ServerBase": {
       "type": "object",
@@ -221,10 +233,24 @@
         "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "variables": {
           "type": "object",
-          "additionalProperties": { "$ref": "#/definitions/ServerVariablesObject" }
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/definitions/ServerVariablesObject" },
+          "errorMessage": {
+            "type": "server.variables must be an object",
+            "minProperties": "server.variables must have at least one property"
+          }
         }
       },
-      "additionalProperties": false
+      "errorMessage": {
+        "type": "",
+        "required": {
+          "url": "server.url is required"
+        },
+        "properties": {
+          "url": "server.url must be a valid URL",
+          "description": "server.description must be a non-empty string"
+        }
+      }
     },
 
     "LicenseWithUrl": {
