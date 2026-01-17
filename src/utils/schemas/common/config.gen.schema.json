@@ -271,18 +271,7 @@
         "url": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" }
       },
       "unevaluatedProperties": false,
-      "errorMessage": {
-        "type": "info.license must be an object",
-        "required": {
-          "name": "license.name is required",
-          "url": "license.url is required"
-        },
-        "properties": {
-          "name": "license.name must be a non-empty string",
-          "url": "license.url must be a valid URL"
-        },
-        "unevaluatedProperties": "info.license allowed properties: [name, url]"
-      }
+      "errorMessage": "LicenseWithUrl: object (name, url)\n  • name: string (non-empty, required)\n  • url: string (valid-url, required)"
     },
     "LicenseWithIdentifier": {
       "type": "object",
@@ -292,18 +281,7 @@
         "identifier": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
       },
       "unevaluatedProperties": false,
-      "errorMessage": {
-        "type": "info.license must be an object",
-        "required": {
-          "name": "license.name is required",
-          "identifier": "license.identifier is required"
-        },
-        "properties": {
-          "name": "license.name must be a non-empty string",
-          "identifier": "license.identifier must be a non-empty string"
-        },
-        "unevaluatedProperties": "info.license allowed properties: [name, identifier]"
-      }
+      "errorMessage": "LicenseWithIdentifier: object (name, identifier)\n  • name: string (non-empty, required)\n  • identifier: string (non-empty, required)"
     },
     "ContactObject": {
       "type": "object",
