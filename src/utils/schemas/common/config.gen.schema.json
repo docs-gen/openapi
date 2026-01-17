@@ -200,7 +200,6 @@
         "externalDocs": { "$ref": "#/definitions/ExternalDocsObject" }
       },
       "errorMessage": {
-        "type": "",
         "required": {
           "name": "tag.name is required"
         },
@@ -254,7 +253,6 @@
         }
       },
       "errorMessage": {
-        "type": "",
         "required": {
           "url": "server.url is required"
         },
