@@ -51,6 +51,23 @@
             },
             "externalDocs": {
               "$ref": "urn:docs-gen:schema:config:common#/definitions/ExternalDocsObject"
+            },
+            "tags": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "allOf": [{ "$ref": "urn:docs-gen:schema:config:common#/definitions/TagBase" }],
+                "unevaluatedProperties": false,
+                "errorMessage": {
+                  "type": "tags[tag] must be an object",
+                  "unevaluatedProperties": "tag allowed properties: [name, description, externalDocs]"
+                }
+              },
+              "errorMessage": {
+                "type": "openAPIConfig.tags must be an array",
+                "uniqueItems": "openAPIConfig.tags must not contain duplicate tag objects"
+              }
             }
           },
           "unevaluatedProperties": false,

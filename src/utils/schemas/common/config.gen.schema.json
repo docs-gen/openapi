@@ -187,7 +187,16 @@
         "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "externalDocs": { "$ref": "#/definitions/ExternalDocsObject" }
       },
-      "additionalProperties": false
+      "errorMessage": {
+        "type": "",
+        "required": {
+          "name": "tag.name is required"
+        },
+        "properties": {
+          "name": "tag.name must be a non-empty string",
+          "description": "tag.description must be a non-empty string"
+        }
+      }
     },
 
     "ServerVariablesObject": {
