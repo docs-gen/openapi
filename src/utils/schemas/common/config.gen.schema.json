@@ -152,9 +152,21 @@
 
     "SecurityRequirementObject": {
       "type": "object",
+      "minProperties": 1,
       "additionalProperties": {
         "type": "array",
-        "items": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "errorMessage": "security[securityScheme] items must be a non-empty strings"
+        },
+        "errorMessage": {
+          "type": "security[securityScheme] must be an array"
+        }
+      },
+      "errorMessage": {
+        "type": "security[securityScheme] must be an object",
+        "minProperties": "security[securityScheme] must have at least one scheme"
       }
     },
 

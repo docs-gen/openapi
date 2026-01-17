@@ -49,6 +49,15 @@
                 "unevaluatedProperties": "info allowed properties: [title, version, description, termsOfService, contact, license]"
               }
             },
+            "security": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:docs-gen:schema:config:common#/definitions/SecurityRequirementObject"
+              },
+              "errorMessage": {
+                "type": "openAPIConfig.security must be an array"
+              }
+            },
             "servers": {
               "type": "array",
               "items": {
