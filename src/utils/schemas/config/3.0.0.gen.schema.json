@@ -49,6 +49,33 @@
                 "unevaluatedProperties": "info allowed properties: [title, version, description, termsOfService, contact, license]"
               }
             },
+            "securitySchemes": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "oneOf": [
+                  {
+                    "$ref": "urn:docs-gen:schema:config:common#/definitions/SecuritySchemes/ApiKeySecuritySchemeObject"
+                  },
+                  {
+                    "$ref": "urn:docs-gen:schema:config:common#/definitions/SecuritySchemes/HttpSecuritySchemeObject"
+                  },
+                  {
+                    "$ref": "urn:docs-gen:schema:config:common#/definitions/SecuritySchemes/OAuth2SecuritySchemeObject"
+                  },
+                  {
+                    "$ref": "urn:docs-gen:schema:config:common#/definitions/SecuritySchemes/OpenIDConnectSecuritySchemeObject"
+                  }
+                ],
+                "errorMessage": {
+                  "type": "securitySchemes[scheme] must be an object",
+                  "oneOf": "securitySchemes[scheme] must be of one type: [ApiKeyScheme, HttpScheme, OAuth2Scheme, OpenIDConnectScheme]"
+                }
+              },
+              "errorMessage": {
+                "type": "openAPIConfig.securitySchemes must be an object"
+              }
+            },
             "security": {
               "type": "array",
               "items": {
