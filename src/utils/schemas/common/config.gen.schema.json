@@ -8,7 +8,12 @@
   "definitions": {
     "Global": {
       "Primitives": {
-        "URL": {
+        "ABSOLUTE_URI": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 1
+        },
+        "URI_REFERENCE": {
           "type": "string",
           "format": "uri-reference",
           "minLength": 1
@@ -27,9 +32,9 @@
 
     "OAuth": {
       "Primitives": {
-        "AuthorizationUrl": { "$ref": "#/definitions/Global/Primitives/URL" },
-        "RefreshUrl": { "$ref": "#/definitions/Global/Primitives/URL" },
-        "TokenUrl": { "$ref": "#/definitions/Global/Primitives/URL" },
+        "AuthorizationUrl": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" },
+        "RefreshUrl": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" },
+        "TokenUrl": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" },
         "Scopes": {
           "type": "object",
           "minProperties": 1,
@@ -139,7 +144,7 @@
         "properties": {
           "type": { "const": "openIdConnect" },
           "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
-          "openIdConnectUrl": { "$ref": "#/definitions/Global/Primitives/URL" }
+          "openIdConnectUrl": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" }
         },
         "additionalProperties": false
       }
@@ -158,7 +163,7 @@
       "required": ["url"],
       "properties": {
         "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
-        "url": { "$ref": "#/definitions/Global/Primitives/URL" }
+        "url": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" }
       },
       "additionalProperties": false
     },
@@ -192,7 +197,7 @@
       "type": "object",
       "required": ["url"],
       "properties": {
-        "url": { "$ref": "#/definitions/Global/Primitives/URL" },
+        "url": { "$ref": "#/definitions/Global/Primitives/URI_REFERENCE" },
         "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "variables": {
           "type": "object",
@@ -207,9 +212,21 @@
       "required": ["name", "url"],
       "properties": {
         "name": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
-        "url": { "$ref": "#/definitions/Global/Primitives/URL" }
+        "url": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" }
       },
-      "additionalProperties": false
+      "unevaluatedProperties": false,
+      "errorMessage": {
+        "type": "info.license must be an object",
+        "required": {
+          "name": "license.name is required",
+          "url": "license.url is required"
+        },
+        "properties": {
+          "name": "license.name must be a non-empty string",
+          "url": "license.url must be a valid URL"
+        },
+        "unevaluatedProperties": "info.license allowed properties: [name, url]"
+      }
     },
     "LicenseWithIdentifier": {
       "type": "object",
@@ -218,7 +235,19 @@
         "name": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "identifier": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" }
       },
-      "additionalProperties": false
+      "unevaluatedProperties": false,
+      "errorMessage": {
+        "type": "info.license must be an object",
+        "required": {
+          "name": "license.name is required",
+          "identifier": "license.identifier is required"
+        },
+        "properties": {
+          "name": "license.name must be a non-empty string",
+          "identifier": "license.identifier must be a non-empty string"
+        },
+        "unevaluatedProperties": "info.license allowed properties: [name, identifier]"
+      }
     },
     "ContactObject": {
       "type": "object",
@@ -226,9 +255,19 @@
       "properties": {
         "name": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "email": { "$ref": "#/definitions/Global/Primitives/EMAIL" },
-        "url": { "$ref": "#/definitions/Global/Primitives/URL" }
+        "url": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" }
       },
-      "additionalProperties": false
+      "unevaluatedProperties": false,
+      "errorMessage": {
+        "type": "info.contact must be an object",
+        "minProperties": "info.contact must have at least one property",
+        "properties": {
+          "name": "info.contact.name must be a non-empty string",
+          "email": "info.contact.email must be a valid email",
+          "url": "info.contact.url must be a valid URL"
+        },
+        "unevaluatedProperties": "info.contact allowed properties: [name, email, url]"
+      }
     },
     "InfoBase": {
       "type": "object",
@@ -237,10 +276,22 @@
         "title": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "version": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
-        "termsOfService": { "$ref": "#/definitions/Global/Primitives/URL" },
+        "termsOfService": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" },
         "contact": { "$ref": "#/definitions/ContactObject" }
       },
-      "additionalProperties": false
+      "errorMessage": {
+        "type": "openAPIConfig.info must be an object",
+        "required": {
+          "title": "info.title is required",
+          "version": "info.version is required"
+        },
+        "properties": {
+          "title": "info.title must be a non-empty string",
+          "version": "info.version must be a non-empty string",
+          "description": "info.description must be a non-empty string",
+          "termsOfService": "info.termsOfService must be a valid URL"
+        }
+      }
     },
 
     "GeneratorConfigObject": {
