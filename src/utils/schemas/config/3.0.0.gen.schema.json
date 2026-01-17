@@ -46,7 +46,7 @@
               ],
               "unevaluatedProperties": false,
               "errorMessage": {
-                "unevaluatedProperties": "openAPIConfig.info allowed properties: [title, version, description, termsOfService, contact, license]"
+                "unevaluatedProperties": "info allowed properties: [title, version, description, termsOfService, contact, license]"
               }
             },
             "externalDocs": {
@@ -76,7 +76,7 @@
             "required": {
               "info": "openAPIConfig.info is required"
             },
-            "unevaluatedProperties": "openAPIConfig allowed properties: [info, externalDocs]"
+            "unevaluatedProperties": "openAPIConfig allowed properties: [info, externalDocs, tags]"
           }
         }
       }

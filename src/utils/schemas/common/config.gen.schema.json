@@ -175,7 +175,7 @@
           "description": "externalDocs.description must be a non-empty string",
           "url": "externalDocs.url must be a valid URL"
         },
-        "unevaluatedProperties": "openAPIConfig.externalDocs allowed properties: [description, url]"
+        "unevaluatedProperties": "externalDocs allowed properties: [description, url]"
       }
     },
 
