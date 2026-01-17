@@ -62,5 +62,11 @@ export async function validate({ configFilePath } = {}) {
   });
 
   // if not valid, log errors
-  if (!validationResult) throw new Error(validationErrors.map(vErr => `\n ↪ ${vErr.message}`));
+  if (!validationResult)
+    throw new Error(
+      validationErrors
+        .map(vErr => vErr.message.trim())
+        .filter(errMsg => errMsg.length > 0)
+        .map(errMsg => `\n ↪ ${errMsg}`)
+    );
 }
