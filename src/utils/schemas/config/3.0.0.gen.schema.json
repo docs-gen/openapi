@@ -48,6 +48,9 @@
               "errorMessage": {
                 "unevaluatedProperties": "openAPIConfig.info allowed properties: [title, version, description, termsOfService, contact, license]"
               }
+            },
+            "externalDocs": {
+              "$ref": "urn:docs-gen:schema:config:common#/definitions/ExternalDocsObject"
             }
           },
           "unevaluatedProperties": false,
@@ -56,7 +59,7 @@
             "required": {
               "info": "openAPIConfig.info is required"
             },
-            "unevaluatedProperties": "openAPIConfig allowed properties: [info]"
+            "unevaluatedProperties": "openAPIConfig allowed properties: [info, externalDocs]"
           }
         }
       }

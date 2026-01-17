@@ -165,7 +165,18 @@
         "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "url": { "$ref": "#/definitions/Global/Primitives/ABSOLUTE_URI" }
       },
-      "additionalProperties": false
+      "unevaluatedProperties": false,
+      "errorMessage": {
+        "type": "openAPIConfig.externalDocs must be an object",
+        "required": {
+          "url": "externalDocs.url is required"
+        },
+        "properties": {
+          "description": "externalDocs.description must be a non-empty string",
+          "url": "externalDocs.url must be a valid URL"
+        },
+        "unevaluatedProperties": "openAPIConfig.externalDocs allowed properties: [description, url]"
+      }
     },
 
     "TagBase": {
