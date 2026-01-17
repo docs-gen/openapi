@@ -65,8 +65,7 @@ export async function validate({ configFilePath } = {}) {
   if (!validationResult)
     throw new Error(
       validationErrors
-        .map(vErr => vErr.message.trim())
-        .filter(errMsg => errMsg.length > 0)
-        .map(errMsg => `\n ↪ ${errMsg}`)
+        .filter(vErr => vErr.keyword === 'errorMessage')
+        .map(vErr => `\n ↪ ${vErr.message.trim()}`)
     );
 }
