@@ -10,22 +10,23 @@
       "properties": {
         "_internalConfig": {
           "type": "object",
-          "additionalProperties": false,
           "required": ["openapi", "jsonSchemaDialect"],
           "properties": {
             "openapi": { "const": "3.2.0" },
             "jsonSchemaDialect": { "const": "https://json-schema.org/draft/2020-12/schema" }
           },
+          "unevaluatedProperties": false,
           "errorMessage": {
             "type": "_internalConfig must be an object",
             "required": {
-              "openapi": "_internalConfig.openapi is required"
+              "openapi": "_internalConfig.openapi is required",
+              "jsonSchemaDialect": "_internalConfig.jsonSchemaDialect is required"
             },
             "properties": {
               "openapi": "_internalConfig.openapi field must be 3.2.0",
               "jsonSchemaDialect": "_internalConfig.jsonSchemaDialect field must be https://json-schema.org/draft/2020-12/schema"
             },
-            "additionalProperties": "_internalConfig allowed properties: [openapi, jsonSchemaDialect]"
+            "unevaluatedProperties": "_internalConfig allowed properties: [openapi, jsonSchemaDialect]"
           }
         },
         "openAPIConfig": {}
