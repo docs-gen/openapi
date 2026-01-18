@@ -31,18 +31,32 @@ interface OAuthFlowsObject {
   authorizationCode?: OAuthAuthorizationCodeFlow;
 }
 
+// API Key Location Type
+type ApiKeyLocation = 'query' | 'header' | 'cookie';
+
+// HTTP Authentication Schemes Type
+type HttpAuthScheme =
+  | 'basic'
+  | 'bearer'
+  | 'digest'
+  | 'negotiate'
+  | 'ntlm'
+  | 'oauth'
+  | 'signature'
+  | (string & {});
+
 // Security Schemes Interfaces
 export interface ApiKeySecuritySchemeObject {
   type: 'apiKey';
   description?: string;
   name: string;
-  in: 'query' | 'header' | 'cookie';
+  in: ApiKeyLocation;
 }
 
 export interface HttpSecuritySchemeObject {
   type: 'http';
   description?: string;
-  scheme: string;
+  scheme: HttpAuthScheme;
   bearerFormat?: string;
 }
 
