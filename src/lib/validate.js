@@ -6,6 +6,7 @@ import {
   validateSchema,
   configFileExists,
   loadConfig,
+  postValidateConfigModule,
 } from '../utils/helpers.js';
 
 // function to validate the config file
@@ -68,4 +69,10 @@ export async function validate({ configFilePath } = {}) {
         .filter(vErr => vErr.keyword === 'errorMessage')
         .map(vErr => `\n ↪ ${vErr.message.trim()}`)
     );
+
+  // post-validation of configModule
+  const { postValidationResult, postValidationErrors } = postValidateConfigModule({ configModule });
+
+  // if post-validation fails, log errors
+  if (!postValidationResult) throw new Error(postValidationErrors.map(pVErr => `\n ↪ ${pVErr}`));
 }
