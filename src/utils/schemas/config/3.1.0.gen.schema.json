@@ -90,7 +90,7 @@
                     "$ref": "urn:docs-gen:schema:config:common#/definitions/SecuritySchemes/OpenIDConnectSecuritySchemeObject"
                   }
                 ],
-                "errorMessage": "securitySchemes.scheme: object (schemeName: schemeType)\n  • schemeName: string (non-empty, required)\n  • schemeType: ApiKey / Http / MutualTLS / OAuth2 / OpenIDConnect\n ↪ For more info: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#security-scheme-object"
+                "errorMessage": "securitySchemes.scheme: object (schemeName: schemeType)\n  • schemeName: string (non-empty, required)\n  • schemeType(3.0.x): ApiKey / Http / OAuth2 / OpenIDConnect\n  • schemeType(3.1.x, 3.2.x): ApiKey / Http / MutualTLS / OAuth2 / OpenIDConnect\n ↪ For more info: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#security-scheme-object"
               },
               "errorMessage": {
                 "type": "openAPIConfig.securitySchemes must be an object"
