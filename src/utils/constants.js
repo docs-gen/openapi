@@ -29,4 +29,5 @@ export const OPEN_API_CONFIG = {
     '3.1.0': 'DocsGeneratorOptionsV31X',
     '3.2.0': 'DocsGeneratorOptionsV32X',
   },
+  SERVER_VARIABLE_REFRENCES_REGEX: /\{([^}]+)\}/g,
 };

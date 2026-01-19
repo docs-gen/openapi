@@ -13,9 +13,9 @@
           "format": "uri",
           "minLength": 1
         },
-        "URI_REFERENCE": {
+        "URI_TEMPLATE": {
           "type": "string",
-          "format": "uri-reference",
+          "format": "uri-template",
           "minLength": 1
         },
         "EMAIL": {
@@ -240,7 +240,7 @@
       "type": "object",
       "required": ["url"],
       "properties": {
-        "url": { "$ref": "#/definitions/Global/Primitives/URI_REFERENCE" },
+        "url": { "$ref": "#/definitions/Global/Primitives/URI_TEMPLATE" },
         "description": { "$ref": "#/definitions/Global/Primitives/NON_EMPTY_STRING" },
         "variables": {
           "type": "object",
