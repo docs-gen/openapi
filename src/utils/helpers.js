@@ -170,4 +170,97 @@ export function postValidateSecurityRequirementsAndSchemes({
   securityRequirements,
   securitySchemes,
   postValidationErrors,
-}) {}
+}) {
+  // check if security schemes are defined when security requirements exist
+  if (
+    securityRequirements.length > 0 &&
+    (!securitySchemes || Object.keys(securitySchemes).length === 0)
+  ) {
+    postValidationErrors.push(
+      'openAPIConfig.securitySchemes must be defined when openAPIConfig.security exists'
+    );
+    return;
+  }
+
+  // check if security-schemes doesn't exist in securitySchemes
+  if (securityRequirements && securitySchemes) {
+    securityRequirements.forEach(securityRequirement => {
+      Object.keys(securityRequirement).forEach(schemeName => {
+        if (!(schemeName in securitySchemes))
+          postValidationErrors.push(
+            [
+              `schemeName in security and securitySchemes mismatch`,
+              `  • schemeName-used: ${schemeName}`,
+              `  • schemesNames-allowed: [${Object.keys(securitySchemes).join(', ')}]`,
+            ].join('\n')
+          );
+      });
+    });
+  }
+
+  // map to store oauth scopes per security scheme
+  const OAuth2ScopeMap = new Map();
+
+  // collect all oauth scopes defined in securitySchemes
+  Object.entries(securitySchemes).forEach(([schemeName, securityScheme]) => {
+    if (securityScheme.type === 'oauth2') {
+      // set to store unique scopes
+      const scopeSet = new Set();
+
+      // collect scopes from all flows
+      Object.values(securityScheme.flows).forEach(flow => {
+        Object.keys(flow.scopes).forEach(scope => scopeSet.add(scope));
+      });
+
+      // add to OAuth2ScopeMap
+      OAuth2ScopeMap.set(schemeName, scopeSet);
+    }
+  });
+
+  // validate each security requirement
+  Object.entries(securityRequirements).forEach(([_index, securityRequirement]) => {
+    // if security scheme is not of type oauth2, scopes must be empty
+    Object.entries(securityRequirement).forEach(([schemeName, scopes]) => {
+      if (!OAuth2ScopeMap.has(schemeName) && scopes.length > 0)
+        postValidationErrors.push(
+          [
+            `non-oauth2 security scheme scopes must be empty`,
+            `  • schemeName: ${schemeName}`,
+            `  • scopes-allowed: []`,
+            `  • scopes-provided: [${scopes.join(', ')}]`,
+          ].join('\n')
+        );
+
+      // if security scheme is of type oauth2, scopes must be non-empty and valid
+      if (OAuth2ScopeMap.has(schemeName)) {
+        // get allowed scopes for this scheme
+        const allowedScopes = OAuth2ScopeMap.get(schemeName);
+
+        // if scopes is empty
+        if (scopes.length === 0) {
+          postValidationErrors.push(
+            [
+              `empty scopes provided for oauth2 security scheme`,
+              `  • schemeName: ${schemeName}`,
+              `  • scopes-provided: []`,
+              `  • scopes-allowed: [${[...allowedScopes].join(', ')}]`,
+            ].join('\n')
+          );
+        } else {
+          // check if provided scopes are not valid
+          scopes.forEach(scope => {
+            if (!allowedScopes.has(scope))
+              postValidationErrors.push(
+                [
+                  `invalid scopes provided for oauth2 security scheme`,
+                  `  • schemeName: ${schemeName}`,
+                  `  • scope-provided: [${scope}]`,
+                  `  • scopes-allowed: [${[...allowedScopes].join(', ')}]`,
+                ].join('\n')
+              );
+          });
+        }
+      }
+    });
+  });
+}
