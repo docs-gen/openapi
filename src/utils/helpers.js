@@ -110,3 +110,57 @@ export async function validateSchema({ validationModule, moduleSchema, additiona
   // return validation result and errors (if any)
   return { validationResult, validationErrors: compiledModuleSchema.errors };
 }
+
+// function to post validate tags
+export function postValidateTags({ tags, postValidationErrors }) {
+  // check if tag names are unique
+  const tagNames = tags.map(tag => tag.name);
+  const uniqueTagNames = new Set(tagNames);
+  if (tagNames.length !== uniqueTagNames.size)
+    postValidationErrors.push('openAPIConfig.tags contain multiple tags with the same name');
+}
+
+// function to post validate servers
+export function postValidateServers({ servers, postValidationErrors }) {
+  // check if server urls are unique
+  const serverUrls = servers.map(server => server.url);
+  const uniqueServerUrls = new Set(serverUrls);
+  if (serverUrls.length !== uniqueServerUrls.size)
+    postValidationErrors.push('openAPIConfig.servers contain multiple servers with the same url');
+
+  // validate each server
+  servers.forEach(server => {
+    const variablesRefsInURL = [
+      ...server.url.matchAll(OPEN_API_CONFIG.SERVER_VARIABLE_REFRENCES_REGEX),
+    ].map(match => match[1]);
+    const serverVariables = Object.keys(server.variables || {});
+
+    // if variable refrences and server.variables mismatch
+    if (
+      variablesRefsInURL.length !== serverVariables.length ||
+      !variablesRefsInURL.every(varName => serverVariables.includes(varName))
+    )
+      postValidationErrors.push(
+        [
+          `url-variable-references and server.variables mismatch`,
+          `  • server-url: ${server.url}`,
+          `  • url-variable-references: [${variablesRefsInURL.join(', ')}]`,
+          `  • server-variables: [${serverVariables.join(', ')}]`,
+        ].join('\n')
+      );
+
+    // check if server variables default exist in enum
+    Object.entries(server.variables || {}).forEach(([name, variable]) => {
+      if (variable.enum && !variable.enum.includes(variable.default))
+        postValidationErrors.push(
+          [
+            `variable.default doesn't exist in it's enum`,
+            `  • server-url: ${server.url}`,
+            `  • variable-name: ${name}`,
+            `  • default-value: ${variable.default}`,
+            `  • enum-values: [${variable.enum.join(', ')}]`,
+          ].join('\n')
+        );
+    });
+  });
+}

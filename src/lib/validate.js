@@ -6,7 +6,8 @@ import {
   validateSchema,
   configFileExists,
   loadConfig,
-  postValidateConfigModule,
+  postValidateTags,
+  postValidateServers,
 } from '../utils/helpers.js';
 
 // function to validate the config file
@@ -70,9 +71,18 @@ export async function validate({ configFilePath } = {}) {
         .map(vErr => `\n ↪ ${vErr.message.trim()}`)
     );
 
-  // post-validation of configModule
-  const { postValidationResult, postValidationErrors } = postValidateConfigModule({ configModule });
+  // array to hold post validation errors (if any)
+  const postValidationErrors = [];
+
+  // post validate tags (if exists)
+  if (configModule.openAPIConfig.tags.length > 0)
+    postValidateTags({ tags: configModule.openAPIConfig.tags, postValidationErrors });
+
+  // post validate servers (if exists)
+  if (configModule.openAPIConfig.servers.length > 0)
+    postValidateServers({ servers: configModule.openAPIConfig.servers, postValidationErrors });
 
   // if post-validation fails, log errors
-  if (!postValidationResult) throw new Error(postValidationErrors.map(pVErr => `\n ↪ ${pVErr}`));
+  if (postValidationErrors.length > 0)
+    throw new Error(postValidationErrors.map(pVErr => `\n ↪ ${pVErr}`));
 }
