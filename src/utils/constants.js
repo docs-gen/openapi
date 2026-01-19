@@ -4,14 +4,17 @@ export const OPEN_API_CONFIG = {
     {
       name: 'OpenAPI 3.0.x',
       value: '3.0.0',
+      description: 'Stable and widely supported, uses OpenAPI Schema instead of full JSON Schema',
     },
     {
       name: 'OpenAPI 3.1.x',
       value: '3.1.0',
+      description: 'Uses full JSON Schema 2020-12, better compatibility with JSON Schema tools',
     },
     {
       name: 'OpenAPI 3.2.x',
       value: '3.2.0',
+      description: 'Latest iteration, includes minor improvements and clarifications over 3.1.x',
     },
   ],
   SCHEMA_FILES_MAP: {
