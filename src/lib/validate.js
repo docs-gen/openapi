@@ -8,6 +8,7 @@ import {
   loadConfig,
   postValidateTags,
   postValidateServers,
+  postValidateSecurityRequirementsAndSchemes,
 } from '../utils/helpers.js';
 
 // function to validate the config file
@@ -75,12 +76,20 @@ export async function validate({ configFilePath } = {}) {
   const postValidationErrors = [];
 
   // post validate tags (if exists)
-  if (configModule.openAPIConfig.tags.length > 0)
+  if (configModule.openAPIConfig?.tags?.length > 0)
     postValidateTags({ tags: configModule.openAPIConfig.tags, postValidationErrors });
 
   // post validate servers (if exists)
-  if (configModule.openAPIConfig.servers.length > 0)
+  if (configModule.openAPIConfig?.servers?.length > 0)
     postValidateServers({ servers: configModule.openAPIConfig.servers, postValidationErrors });
+
+  // post validate security requirements and schemes (if exists)
+  if (configModule.openAPIConfig?.security || configModule.openAPIConfig?.securitySchemes)
+    postValidateSecurityRequirementsAndSchemes({
+      securityRequirements: configModule.openAPIConfig?.security,
+      securitySchemes: configModule.openAPIConfig?.securitySchemes,
+      postValidationErrors,
+    });
 
   // if post-validation fails, log errors
   if (postValidationErrors.length > 0)

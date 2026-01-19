@@ -164,3 +164,10 @@ export function postValidateServers({ servers, postValidationErrors }) {
     });
   });
 }
+
+// function to post validate security requirements and schemes
+export function postValidateSecurityRequirementsAndSchemes({
+  securityRequirements,
+  securitySchemes,
+  postValidationErrors,
+}) {}
