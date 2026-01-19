@@ -82,16 +82,19 @@ export default {
       {
         ApiKeyAuth: [],
       },
+      {
+        OAuth2Auth: ['read:data', 'write:data'],
+      },
     ],
     servers: [
       {
-        url: 'https://api.example.com/v1',
+        url: 'https://api.example.com/{version}',
         description: 'The main production server',
         variables: {
-          env: {
-            default: 'prod',
-            description: 'Environment variable',
-            enum: ['dev', 'staging', 'prod'],
+          version: {
+            default: 'v1',
+            description: 'API version',
+            enum: ['beta', 'v1', 'v2'],
           },
         },
       },
@@ -210,16 +213,19 @@ export default {
       {
         ApiKeyAuth: [],
       },
+      {
+        OAuth2Auth: ['read:data', 'write:data'],
+      },
     ],
     servers: [
       {
-        url: 'https://api.example.com/v1',
+        url: 'https://api.example.com/{version}',
         description: 'The main production server',
         variables: {
-          env: {
-            default: 'prod',
-            description: 'Environment variable',
-            enum: ['dev', 'staging', 'prod'],
+          version: {
+            default: 'v1',
+            description: 'API version',
+            enum: ['beta', 'v1', 'v2'],
           },
         },
       },
@@ -338,17 +344,20 @@ export default {
       {
         ApiKeyAuth: [],
       },
+      {
+        OAuth2Auth: ['read:data', 'write:data'],
+      },
     ],
     servers: [
       {
-        url: 'https://api.example.com/v1',
+        url: 'https://api.example.com/{version}',
         name: 'Production Server',
         description: 'The main production server',
         variables: {
-          env: {
-            default: 'prod',
-            description: 'Environment variable',
-            enum: ['dev', 'staging', 'prod'],
+          version: {
+            default: 'v1',
+            description: 'API version',
+            enum: ['beta', 'v1', 'v2'],
           },
         },
       },
