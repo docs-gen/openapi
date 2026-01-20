@@ -386,3 +386,98 @@ export default {
   },
 };
 ```
+
+### Documentation Tags Reference
+```md
+@route
+  SYNTAX:
+    - @route HTTP_METHOD PATH_TO_ENDPOINT
+  EXPLANATION:
+    - HTTP_METHOD: GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS|TRACE
+    - PATH_TO_ENDPOINT
+      - must start with '/' as in '/users'
+      - no trailing slash as in '/users/'
+      - path parameters must be enclosed in curly braces as in '/u/{uId}/p/{pId}'
+      - no query parameters as in '/users?active=true'
+  USAGE:
+    - @route GET /users
+    - @route PATCH /users/{userId}
+    - @route POST /users/{userId}/posts
+    - @route DELETE /users/{userId}/posts/{postId}
+
+@operationId
+  RULES:
+    - non-empty string
+    - must be unique across all endpoints
+    - must not contain spaces
+    - case-sensitive
+  USAGE:
+    - @operationId getUserPosts
+
+@summary
+  RULES:
+    - any non-empty string
+    - omit this tag for no summary
+  USAGE:
+    - @summary Retrieves a list of posts for a specific user.
+
+@description
+  RULES:
+    - any non-empty string
+    - omit this tag for no description
+  USAGE:
+    - @description This endpoint retrieves all posts associated with specified user.
+
+@security
+  RULES:
+    - omit this tag for no security
+    - all securitySchemes must exist in the configFile
+    - supports multiple schemes per endpoint
+    - if scopes are provided, they must exist in the securityScheme definition
+  SYNTAX:
+    - @security NON_OAUTH_SECURITY_SCHEME_NAME
+    - @security OAUTH_SECURITY_SCHEME_NAME OAUTH_SCOPES
+  EXPLANATION:
+    - SECURITY_SCHEME_NAME: any non-empty string
+    - OAUTH_SCOPES: space-separated list of scopes
+  USAGE:
+    - @security ApiKey
+    - @security OAuth2 read:posts write:posts
+
+@tag
+  RULES:
+    - any non-empty string
+    - can be used multiple times per endpoint
+    - must exist in the configFile
+  USAGE:
+    - @tag Tag-1
+    - @tag Tag-2
+
+@deprecated
+  RULES:
+    - if present, marks the endpoint as deprecated
+    - omit this tag for not deprecated endpoints
+  USAGE:
+    - @deprecated
+
+@param
+  RULES:
+    - omit this tag if there are no parameters
+  SYNTAX:
+    - @param LOCATION NAME TYPE MODIFIERS
+  EXPLANATION:
+    - LOCATION: path|query|header|cookie
+    - NAME: any non-empty string
+    - TYPE: string|integer|boolean|array|number|object
+    - MODIFIERS
+      - required=true|false (required=false is invalid for path parameters)
+      - description= any non-empty string
+      - itemsType= string|integer|boolean|number|object (only if TYPE is array)
+      - other modifiers can be provided, separated by space
+  USAGE:
+    - @param path userId string required=true description=ID of the user
+    - @param query limit integer required=false
+    - @param query tags array required=false itemsType=string
+    - @param header X-Custom-Header string required=false
+    - @param cookie sessionId string required=true description=Session identifier
+```
