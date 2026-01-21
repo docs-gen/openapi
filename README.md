@@ -432,7 +432,7 @@ export default {
   RULES:
     - omit this tag for no security
     - all securitySchemes must exist in the configFile
-    - supports multiple schemes per endpoint
+    - multiple @security entries are evaluated as OR conditions
     - if scopes are provided, they must exist in the securityScheme definition
   SYNTAX:
     - @security NON_OAUTH_SECURITY_SCHEME_NAME
@@ -464,13 +464,13 @@ export default {
   RULES:
     - omit this tag if there are no parameters
   SYNTAX:
-    - @param LOCATION NAME TYPE MODIFIERS
+    - @param LOCATION NAME TYPE [MODIFIERS]
   EXPLANATION:
     - LOCATION: path|query|header|cookie
     - NAME: any non-empty string
     - TYPE: string|integer|boolean|array|number|object
     - MODIFIERS
-      - required=true|false (required=false is invalid for path parameters)
+      - required=true|false (path parameters always required, required=false is invalid)
       - description= any non-empty string
       - itemsType= string|integer|boolean|number|object (only if TYPE is array)
       - other modifiers can be provided, separated by space
@@ -480,4 +480,113 @@ export default {
     - @param query tags array required=false itemsType=string
     - @param header X-Custom-Header string required=false
     - @param cookie sessionId string required=true description=Session identifier
+
+@requestBody
+  RULES:
+    - omit this tag if the endpoint does not accept a request body
+    - only one logical @requestBody is allowed per endpoint
+    - multiple media types are supported by repeating @requestBody
+    - allowed for POST, PUT, PATCH, and DELETE methods only
+  SYNTAX:
+    - @requestBody MEDIA_TYPE SCHEMA [MODIFIERS]
+  EXPLANATION:
+    - MEDIA_TYPE:
+      - application/json
+      - application/xml
+      - multipart/form-data
+      - application/x-www-form-urlencoded
+      - text/plain
+      - any valid media type string
+    - SCHEMA:
+      - name of a schema defined in components.schemas
+      - must exist in the configFile
+    - MODIFIERS:
+      - required=true|false (default is false)
+      - description=any non-empty string
+      - example=any valid value (only one example is allowed per media type)
+  USAGE:
+    - @requestBody application/json CreatePostInput required=true
+    - @requestBody application/json UpdatePostInput
+    - @requestBody multipart/form-data UploadFileInput
+    - @requestBody application/json CreateUserInput description=User payload
+
+@response
+  RULES:
+    - at least one @response is required per endpoint
+    - multiple @response tags are allowed per endpoint
+    - multiple media types for same status code are supported by repeating @response
+    - response status codes must be unique per endpoint
+    - response bodies are optional
+    - responses may reference predefined responses using ref=
+    - 204, 304 status codes must not have a response body
+  SYNTAX:
+    - @response STATUS_CODE [SCHEMA | ref=PREDEFINED_RESPONSE_NAME] [MODIFIERS]
+  EXPLANATION:
+    - STATUS_CODE:
+      - HTTP status code (e.g. 200, 201, 400, 404, 500)
+      - or "default"
+    - SCHEMA:
+      - name of a schema defined in components.schemas
+      - must exist in the configFile
+      - optional
+    - ref=PREDEFINED_RESPONSE_NAME:
+      - references a predefined response defined in components.responses
+      - must exist in the configFile
+      - cannot be used together with SCHEMA
+      - optional
+    - MODIFIERS:
+      - description=any non-empty string
+      - example=any valid value (only one example is allowed per media type)
+      - mediaType=any valid media type string (default is application/json)
+  USAGE:
+    - @response 200 PostResponse description=Successful response
+    - @response 201 CreatePostResponse example={"id":123,"title":"New Post"}
+    - @response 400 ErrorResponse
+    - @response default ErrorResponse description=Unexpected error
+
+@externalDocs
+  RULES:
+    - if present, it applies to the endpoint level
+    - omit this tag if no external documentation is needed
+    - only one @externalDocs is allowed per endpoint
+  SYNTAX:
+    - @externalDocs URL [DESCRIPTION]
+  EXPLANATION:
+    - URL: any valid absolute URL string
+    - DESCRIPTION: any non-empty string
+  USAGE:
+    - @externalDocs https://example.com/docs/endpoint Detailed docs for this endpoint
+    - @externalDocs https://example.com/docs/endpoint
+
+@server
+  RULES:
+    - omit this tag to use the default servers defined in the configFile
+    - can be used multiple times per endpoint
+    - each server must have a unique URL
+    - URL must be a valid absolute URL
+    - if variables are used, they must match variables defined in the configFile
+  SYNTAX:
+    - @server URL [DESCRIPTION]
+  EXPLANATION:
+    - URL: server URL, may include variables in curly braces
+    - DESCRIPTION: any non-empty string
+  USAGE:
+    - @server https://staging-api.example.com/v1 staging server
+    - @server https://dev-api.example.com/{version} Development server
+
+@x-
+  RULES:
+    - any custom extension starting with 'x-'
+    - omit this tag if no custom extensions are needed
+    - can be used multiple times per endpoint
+  SYNTAX:
+    - @x-EXTENSION_NAME EXTENSION_VALUE
+  EXPLANATION:
+    - EXTENSION_NAME
+      - any non-empty string (the full key will be prefixed with 'x-')
+    - EXTENSION_VALUE
+      - any valid JSON value (string, number, object, array, boolean, null)
+  USAGE:
+    - @x-rate-limit 1000
+    - @x-department engineering
 ```
